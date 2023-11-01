@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.get('/order',(req, res) => {
     res.send('GUMANA NAA')
 })
-app.use(user)
+app.use('/api/v1', user)
 
 
 module.exports = app
