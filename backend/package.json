@@ -1,0 +1,12 @@
+{
+  "name": "baghub-api",
+  "version": "1.0.0",
+  "description": "BagHub is your one-stop shop for high-quality bags in the world of e-commerce",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "BagHub BSIT-NS-3A",
+  "license": "ISC"
+}
