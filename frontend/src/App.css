@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+/* styles.css */
+.carousel-image {
+  max-width: 50%;   /* Ensure the image doesn't exceed the slide width */
+  height: auto;      /* Automatically adjust the height to maintain the aspect ratio */
+  display: block;    /* Make the image a block-level element */
+  margin: 0 auto;    /* Center the image horizontally */
+}
+
+.divider {
+  width: 50%;
+  height: 2px; /* Adjust the height of the divider */
+  display: block;    /* Make the image a block-level element */
+  margin: 0 auto; 
+  background-color: #000; /* Adjust the background color of the divider */
+}
+
+/* styles.css */
+.custom-font {
+  font-family: gotu; /* Replace 'YourFontName' with your desired font */
+  font-size: 16px; /* Set the font size to your preference */
+  font-weight: 700; /* Set the font weight (e.g., 700 for bold) */
+  color: #333; /* Set the font color to your preference */
+}
+
+/* LOGIN MODAL CSS */
+.custom-modal {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+.custom-modal-title {
+  color: #333;
+}
+
+.custom-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
+
