@@ -23,12 +23,12 @@ const Forgot = () => {
 
       setLoading(false);
       toast.success(data.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
+        position: toast.POSITION.TOP_RIGHT,
       });
       navigate('/');
     } catch (error) {
       toast.error(error.response.data.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
   };

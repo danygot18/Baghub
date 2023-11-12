@@ -13,8 +13,11 @@ const UpdatePassword = () => {
     const [error, setError] = useState('')
     const [isUpdated, setIsUpdated] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [loadingClick, setLoadingClick] = useState(false);
+
     let navigate = useNavigate();
     const updatePassword = async (formData) => {
+        setLoadingClick(true);
         console.log(formData)
         try {
             const config = {
@@ -26,9 +29,10 @@ const UpdatePassword = () => {
 
             const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/update`, formData, config)
             setIsUpdated(data.success)
+            setLoadingClick(false);
             setLoading(false)
             toast.success('password updated', {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: toast.POSITION.TOP_RIGHT
             });
             navigate('/profile')
         } catch (error) {
@@ -38,7 +42,7 @@ const UpdatePassword = () => {
     useEffect(() => {
         if (error) {
             toast.error(error, {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: toast.POSITION.TOP_RIGHT
             });
         }
     }, [error,])
@@ -80,7 +84,11 @@ const UpdatePassword = () => {
                             />
                         </div>
 
-                        <button type="submit" bor className="btn update-btn btn-outline-success mt-4 mb-3" disabled={loading ? true : false} >Update Password</button>
+                        <button type="submit" bor className="btn update-btn btn-outline-success mt-4 mb-3" disabled={loadingClick} >
+                            {loadingClick ?
+                                "Updating......" :
+                                "Update Profile"
+                            }</button>
                     </form>
                 </div>
             </div>

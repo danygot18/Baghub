@@ -16,6 +16,8 @@ const updateProfile = () => {
     const [user, setUser] = useState({})
     const [loading, setLoading] = useState(false)
     const [isUpdated, setIsUpdated] = useState(false)
+    const [loadingClick, setLoadingClick] = useState(false);
+
     let navigate = useNavigate();
 
     const getProfile = async () => {
@@ -42,6 +44,7 @@ const updateProfile = () => {
     }
 
     const updateProfile = async (userData) => {
+        setLoadingClick(true);
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -51,18 +54,20 @@ const updateProfile = () => {
         try {
             const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/profile/update`, userData, config)
             setIsUpdated(data.success)
+            setLoadingClick(false);
             setLoading(false)
             toast.success('user updated', {
-                position: toast.POSITION.TOP_LEFT
+                position: toast.POSITION.TOP_RIGHT
             });
             //  getProfile();
             navigate('/profile', { replace: true })
 
 
         } catch (error) {
+            setLoadingClick(false);
             console.log(error)
             toast.error('user not found', {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: toast.POSITION.TOP_RIGHT
             });
         }
     }
@@ -151,11 +156,14 @@ const updateProfile = () => {
                             </div>
                         </div>
 
-                        <button type="submit" bor className="btn update-btn btn-outline-success mt-4 mb-3" disabled={loading ? true : false} >
-                            Update Profile
+                        <button type="submit" bor className="btn update-btn btn-outline-success mt-4 mb-3" disabled={loadingClick} >
+                            {loadingClick ?
+                                "Updating......" :
+                                "Update Profile"
+                            }
                         </button>
 
-                        {loading && <div className="text-center mt-3">Updating...</div>}
+                        {/* {loading && <div className="text-center mt-3">Updating...</div>} */}
 
                         {error && <div className="alert alert-danger mt-3">{error}</div>}
 

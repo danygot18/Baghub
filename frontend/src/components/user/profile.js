@@ -27,7 +27,7 @@ const Profile = () => {
         } catch (error) {
             console.error(error);
             toast.error("Failed to fetch user profile", {
-                position: toast.POSITION.BOTTOM_RIGHT
+                position: toast.POSITION.TOP_RIGHT
             });
         }
     };

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Form, FormControl } from 'react-bootstrap';
 import { FaLock, FaEnvelope, FaImage } from 'react-icons/fa';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUpModal({ show, handleClose }) {
   const [user, setUser] = useState({
@@ -16,6 +18,7 @@ function SignUpModal({ show, handleClose }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [loadingClick, setLoadingClick] = useState(false);
 
   let navigate = useNavigate();
 
@@ -59,6 +62,7 @@ function SignUpModal({ show, handleClose }) {
   };
 
   const register = async (userData) => {
+    setLoadingClick(true);
     try {
       const config = {
         headers: {
@@ -68,10 +72,14 @@ function SignUpModal({ show, handleClose }) {
 
       const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, userData, config);
       console.log(data.user);
+      setLoadingClick(false);
       handleClose();
       setIsAuthenticated(true);
       setLoading(false);
       setUser(data.user);
+      toast.success('Profile Created', {
+        position: toast.POSITION.TOP_RIGHT
+      });
       navigate('/');
     } catch (error) {
       setIsAuthenticated(false);
@@ -136,7 +144,7 @@ function SignUpModal({ show, handleClose }) {
                     src={avatarPreview}
                     className='rounded-circle mx-auto d-block'
                     alt='Avatar Preview'
-                    style={{  width: '80px', height: '80px' }}  
+                    style={{ width: '80px', height: '80px' }}
                   />
                 </figure>
               </div>
@@ -149,10 +157,13 @@ function SignUpModal({ show, handleClose }) {
               accept="images/*"
               onChange={onChange}
             />
-            
+
           </Form.Group>
-          <Button className='mt-4 btn-outline-white' variant="dark" onClick={handleSignUp}>
-            Sign Up
+          <Button className='mt-4 btn-outline-white' variant="dark" disabled={loadingClick} onClick={handleSignUp}>
+            {loadingClick ?
+              "Creating......" :
+              "Sign up"
+            }
           </Button>
         </Form>
       </Modal.Body>
