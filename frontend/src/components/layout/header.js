@@ -1,14 +1,48 @@
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { LinkContainer } from 'react-router-bootstrap';
+
 import { Form, FormControl, Button } from 'react-bootstrap';
 import LoginModal from '../user/login';
 import SignUpModal from '../user/signup';
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { getUser, logout } from '../../utils/helpers';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function MyNavbar() {
+  const [user, setUser] = useState('')
+  const navigate = useNavigate()
+  const logoutUser = async () => {
+
+    try {
+      await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`)
+
+      setUser('')
+
+      logout(() => navigate('/'))
+    } catch (error) {
+      toast.error(error.response.data.message)
+
+    }
+  }
+  const logoutHandler = () => {
+    logoutUser();
+    toast.success('log out', {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  }
+  useEffect(() => {
+    setUser(getUser())
+  }, [])
+
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleLoginModalOpen = () => {
@@ -28,6 +62,7 @@ function MyNavbar() {
   const handleSignUpModalClose = () => {
     setshowSignUpModal(false);
   };
+
   return (
     <Navbar expand="lg" bg="light" variant="light">
       <Container>
@@ -54,19 +89,64 @@ function MyNavbar() {
               <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
             </Nav.Link>
           </Nav>
-          <div>
+
+
+          {user ? (
+            <Nav className="ml-4 dropdown d-inline">
+              {/* <Link to="#!" className="btn dropdown-toggle text-white mr-4" style={{ height: "80px" }} type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> */}
+              <NavDropdown title={user && user.name} className="btn dropdown-toggle text-white mr-4" style={{ height: "55px" }} type="button" id="dropDownMenuButton">
+                {/* <figure className="avatar avatar-nav">
+                  <img
+                    src={user.avatar && user.avatar.url}
+                    alt={user && user.name}
+                    className="rounded-circle"
+                    width={65}
+                    height={65}
+                  />
+                </figure> */}
+                {/* <span>{user && user.name}</span> */}
+                {/* <LinkContainer to="/profile" className='bg-white'> */}
+                {/* <NavDropdown.Item className="dropdown-item"> */}
+                  <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
+                {/* </NavDropdown.Item> */}
+                {/* </LinkContainer> */}
+                <NavDropdown.Item className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+              {/* </Link> */}
+
+              {/* <NavDropdown className="btn dropdown-toggle text-white mr-4" aria-labelledby="dropDownMenuButton"> */}
+              {/* {user && user.role === 'admin' && (
+                                <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+                            )} */}
+              {/* <Link className="dropdown-item" to="/orders/me">Orders</Link> */}
+              {/* <Link className="dropdown-item" to="/me">Profile</Link> */}
+              {/* <NavDropdown.Item Link className="custom-font" to="">All Products</NavDropdown.Item> */}
+              {/* <NavDropdown.Item href="#brands" className="custom-font">All Brands</NavDropdown.Item> */}
+              {/* <NavDropdown.Item  className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown> */}
+
+
+            </Nav>) : <div>
             <Button variant="outline-white" onClick={handleLoginModalOpen} className="custom-font">
               Login
             </Button>
             <Button variant="outline-white" onClick={handleSignUpModalOpen} className="custom-font">
               Sign Up
-            </Button>
-            <LoginModal show={showLoginModal} handleClose={handleLoginModalClose} />
-            <SignUpModal show={showSignUpModal} handleClose={handleSignUpModalClose} />
-          </div>
+            </Button></div>}
+          <LoginModal show={showLoginModal} handleClose={handleLoginModalClose} />
+          <SignUpModal show={showSignUpModal} handleClose={handleSignUpModalClose} />
+
+
         </Navbar.Collapse>
       </Container>
+
     </Navbar>
+
+
   );
 }
 

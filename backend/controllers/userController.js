@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const sendEmail = require('../utils/sendEmail');
 
 exports.registerUser = async (req, res, next) => {
-    const result = await cloudinary.v2.uploader.upload(req.file.path, {
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: 'baghub/avatar',
         width: 150,
         crop: "scale"
@@ -103,7 +103,7 @@ exports.ForgotPassword = async (req, res, next) => {
     try {
         await sendEmail({
             email: user.email,
-            subject: 'Baghun Password Recover',
+            subject: 'Baghub Password Recover',
             message
         })
 
@@ -146,3 +146,63 @@ exports.ResetPassword = async (req, res, next) => {
     await user.save();
     sendToken(user, 200, res);
 }
+exports.updatePassword = async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('password');
+    // Check previous user password
+    const isMatched = await user.comparePassword(req.body.oldPassword)
+    if (!isMatched) {
+        return res.status(400).json({ message: 'Old password is incorrect' })
+    }
+    user.password = req.body.password;
+    await user.save();
+    sendToken(user, 200, res)
+
+}
+
+exports.Profile = async (req, res, next) => {
+    // console.log(req.header('authorization'))
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+
+exports.UpdateProfile = async (req, res, next) => {
+    console.log(req.body)
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email
+    };
+
+    if (req.body.avatar !== '') {
+        const user = await User.findById(req.body.id);
+
+        // const image_id = user.avatar.public_id;
+        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: 'avatars',
+            width: 150,
+            crop: "scale"
+        });
+
+        newUserData.avatar = {
+            public_id: result.public_id,
+            url: result.secure_url
+        };
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+    });
+
+    if (!user) {
+        return res.status(401).json({ message: 'User Not Updated' });
+    }
+
+    res.status(200).json({
+        success: true
+    });
+};

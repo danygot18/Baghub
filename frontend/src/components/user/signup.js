@@ -1,16 +1,85 @@
-import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import {  FaLock, FaEnvelope, FaCheck } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Modal, Button, Form, FormControl } from 'react-bootstrap';
+import { FaLock, FaEnvelope, FaImage } from 'react-icons/fa';
+import axios from 'axios';
 
 function SignUpModal({ show, handleClose }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
-  const handleSignUp = () => {
-    // Implement your sign-up logic here
-    console.log('Signing up with email:', email, 'and password:', password);
-    handleClose(); // Close the modal after signing up
+  const [avatar, setAvatar] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+    if (error) {
+      console.log(error);
+      setError('');
+    }
+  }, [error, isAuthenticated, navigate]);
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', user.name);
+    formData.append('email', user.email);
+    formData.append('password', user.password);
+    formData.append('avatar', avatar);
+
+    register(formData);
+  };
+
+  const onChange = (e) => {
+    if (e.target.name === 'avatar') {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setAvatarPreview(reader.result);
+          setAvatar(reader.result);
+        }
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
+      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, userData, config);
+      console.log(data.user);
+      handleClose();
+      setIsAuthenticated(true);
+      setLoading(false);
+      setUser(data.user);
+      navigate('/');
+    } catch (error) {
+      setIsAuthenticated(false);
+      setLoading(false);
+      setUser(null);
+      setError(error.response.data.message);
+      console.log(error.response.data.message);
+    }
   };
 
   return (
@@ -20,6 +89,18 @@ function SignUpModal({ show, handleClose }) {
       </Modal.Header>
       <Modal.Body>
         <Form>
+          <Form.Group controlId="formBasicName">
+            <Form.Label>
+              <FaEnvelope /> Name
+            </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Name"
+              name="name"
+              value={user.name}
+              onChange={onChange}
+            />
+          </Form.Group>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>
               <FaEnvelope /> Email address
@@ -27,8 +108,9 @@ function SignUpModal({ show, handleClose }) {
             <Form.Control
               type="email"
               placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={user.email}
+              onChange={onChange}
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
@@ -38,20 +120,36 @@ function SignUpModal({ show, handleClose }) {
             <Form.Control
               type="password"
               placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={user.password}
+              onChange={onChange}
             />
           </Form.Group>
-          <Form.Group controlId="formConfirmPassword">
+          <Form.Group controlId="formBasicImage">
             <Form.Label>
-              <FaCheck /> Confirm Password
+              <FaImage /> Images
             </Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+            <div className='d-flex align-items-center'>
+              <div>
+                <figure className='avatar mr-3 item-rtl'>
+                  <img
+                    src={avatarPreview}
+                    className='rounded-circle mx-auto d-block'
+                    alt='Avatar Preview'
+                    style={{  width: '80px', height: '80px' }}  
+                  />
+                </figure>
+              </div>
+            </div>
+            <input
+              type='file'
+              name='avatar'
+              className='custom-file-input'
+              id='customFile'
+              accept="images/*"
+              onChange={onChange}
             />
+            
           </Form.Group>
           <Button className='mt-4 btn-outline-white' variant="dark" onClick={handleSignUp}>
             Sign Up
