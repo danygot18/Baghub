@@ -5,7 +5,7 @@ import MetaData from '../layout/MetaData';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import { getUser, } from '../../utils/helpers';;
+import { getUser } from '../../utils/helpers';
 import { getToken } from '../../utils/helpers';
 
 const Profile = () => {

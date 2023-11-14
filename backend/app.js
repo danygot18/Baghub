@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const product = require('./routes/product');
 const user = require('./routes/user')
+
 
 
 app.use(cors())
@@ -13,7 +15,8 @@ app.use(cookieParser());
 app.get('/order',(req, res) => {
     res.send('GUMANA NAA')
 })
-app.use('/api/v1', user)
+app.use('/api/v1', user);
+app.use('/api/v1', product);
 
 
 module.exports = app
