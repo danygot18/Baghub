@@ -108,6 +108,7 @@ function MyNavbar() {
                 {/* <LinkContainer to="/profile" className='bg-white'> */}
                 {/* <NavDropdown.Item className="dropdown-item"> */}
                   <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
+                  <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
                 {/* </NavDropdown.Item> */}
                 {/* </LinkContainer> */}
                 <NavDropdown.Item className="dropdown-item text-danger" to="/" onClick={logoutHandler}>

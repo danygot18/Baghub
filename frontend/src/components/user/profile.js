@@ -18,7 +18,7 @@ const Profile = () => {
                 'Authorization': `Bearer ${getToken()}`
             }
         };
-
+        
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/profile`, config);
             console.log(data)

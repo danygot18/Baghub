@@ -11,6 +11,12 @@ import Forgot from './components/user/forgot';
 import ResetPassword from './components/user/resetPassword';
 import UpdateProfile from './components/user/updateProfile';
 import UpdatePassword from './components/user/updatePassword';
+
+// Admin
+import Dashboard from './components/Admin/Dashboard';
+import UsersList from './components/Admin/usersList';
+import UpdateUser from './components/Admin/updateUsers';
+
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -34,6 +40,10 @@ function App() {
           <Route path="/password/update" element={<UpdatePassword />} exact="true" />
         
 
+          {/* Admin */}
+          <Route path="/admin/users" element={<UsersList />} />
+          <Route path="/dashboard" element={<Dashboard />} exact="true" />
+          <Route path="/admin/user/:id" element={<UpdateUser />} />
           <Route path="/" element={<>
             <MyCarousel />
             <ProductCard /></>} exact="true" />

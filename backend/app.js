@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const product = require('./routes/product');
 const user = require('./routes/user')
+const category = require('./routes/category')
 
 
 
@@ -17,6 +18,7 @@ app.get('/order',(req, res) => {
 })
 app.use('/api/v1', user);
 app.use('/api/v1', product);
+app.use('/api/v1', category)
 
 
 module.exports = app

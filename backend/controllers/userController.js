@@ -206,3 +206,59 @@ exports.UpdateProfile = async (req, res, next) => {
         success: true
     });
 };
+
+exports.AllUsers = async (req, res, next) => {
+    const users = await User.find();
+    res.status(200).json({
+        success: true,
+        users
+    })
+}
+
+exports.getUserDetails = async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return res.status(400).json({ message: `User does not found with id: ${req.params.id}` })
+        // return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    }
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+exports.deleteUser = async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        return res.status(401).json({ message: `User does not found with id: ${req.params.id}` })
+        // return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
+    }
+
+    // Remove avatar from cloudinary
+    const image_id = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(image_id);
+    await User.findByIdAndRemove(req.params.id);
+    return res.status(200).json({
+        success: true,
+    })
+}
+exports.updateUser = async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    }
+
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+        new: true,
+        runValidators: true,
+        // useFindAndModify: false
+    })
+
+    return res.status(200).json({
+        success: true
+    })
+}
