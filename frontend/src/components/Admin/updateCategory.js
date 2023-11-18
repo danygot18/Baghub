@@ -11,9 +11,10 @@ import axios from 'axios';
 const updateCategory = () => {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(true);
-    const [category, setCategory] = useState(true);   
-    const [avatar, setAvatar] = useState('');
-    const [avatarPreview, setAvatarPreview] = useState([]);
+    const [category, setCategory] = useState(true);
+    const [images, setImages] = useState([]);
+    const [oldImages, setOldImages] = useState([]);
+    const [imagesPreview, setImagesPreview] = useState([]);
 
     const [isUpdated, setIsUpdated] = useState(false);
     const [error, setError] = useState('');
@@ -27,23 +28,27 @@ const updateCategory = () => {
         }
     }
     const onChange = e => {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setAvatarPreview(reader.result)
-                setAvatar(reader.result)
+        const files = Array.from(e.target.files)
+        // setImagesPreview([]);
+        // setImages([])
+        // setOldImages([])
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setImagesPreview(oldArray => [...oldArray, reader.result])
+                    setImages(oldArray => [...oldArray, reader.result])
+                }
             }
-        }
-
-        reader.readAsDataURL(e.target.files[0])
-
+            reader.readAsDataURL(file)
+        })
     }
     const getCategoryDetails = async (id) => {
 
         try {
-            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/categories/${id}`, config)
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/category/${id}`, config)
             setCategory(data.categories)
+            setOldImages(data.categories.images);
             setLoading(false)
 
         } catch (error) {
@@ -53,7 +58,7 @@ const updateCategory = () => {
 
     const updateCategory = async (id, categoryData) => {
         try {
-            const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/admin/update/${id}`, categoryData, config)
+            const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/category/update/${id}`, categoryData, config)
             setIsUpdated(data.success)
             setLoading(false)
 
@@ -68,7 +73,7 @@ const updateCategory = () => {
             getCategoryDetails(id)
         } else {
             setName(category.name);
-            setAvatar(category.avatar)
+            // setImages(category.images)
         }
         if (error) {
             errMsg(error);
@@ -84,12 +89,14 @@ const updateCategory = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.set('name', name);
-        avatar.forEach(image => {
-            formData.append('images', image)
-        })
-
+        if (e.target.images.value) {
+            images.forEach(image => {
+                formData.append('images', image)
+            })
+        }
         updateCategory(category._id, formData)
     }
+    console.log(images)
 
     return (
         <Fragment>
@@ -119,13 +126,25 @@ const updateCategory = () => {
                                     <div className='custom-file'>
                                         <input
                                             type='file'
-                                            name='avatar'
+                                            name='images'
                                             className='custom-file-input form-control'
                                             id='customFile'
                                             accept='image/*'
                                             onChange={onChange}
+                                            multiple
                                         />
+
+                                        <label className='custom-file-label' htmlFor='customFile'>
+                                            Choose Images
+                                        </label>
                                     </div>
+
+                                    {oldImages && oldImages.map(img => (
+                                        <img key={img} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
+                                    ))}
+                                    {imagesPreview.map(img => (
+                                        <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                                    ))}
                                 </div>
                                 <button type="submit" className="btn update-btn btn-block mt-4 mb-3" >Update</button>
                             </form>

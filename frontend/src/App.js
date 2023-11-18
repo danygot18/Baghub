@@ -18,7 +18,7 @@ import UsersList from './components/Admin/usersList';
 import UpdateUser from './components/Admin/updateUsers';
 import NewCategory from './components/Admin/newCategory';
 import CategoryList from './components/Admin/categoryList';
-import updateCategory from './components/Admin/updateCategory';
+import UpdateCategory from './components/Admin/updateCategory';
 
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -49,7 +49,7 @@ function App() {
           <Route path="/admin/user/:id" element={<UpdateUser />} />
           <Route path="/admin/category/new" element={<NewCategory />} />
           <Route path="/admin/category" element={<CategoryList />} />
-          <Route path="/admin/category/update" element={<CategoryList />} />
+          <Route path="/admin/category/:id" element={<UpdateCategory />} />
 
           <Route path="/" element={<>
             <MyCarousel />

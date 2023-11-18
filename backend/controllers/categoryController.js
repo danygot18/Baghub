@@ -78,9 +78,23 @@ exports.NewCategory = async (req, res, next) => {
     })
 }
 
-exports.GetCategory = async (req,res,next) => {
-	
-	const categories = await category.find();
+exports.GetCategory = async (req, res, next) => {
+
+    const categories = await category.find();
+    res.status(200).json({
+        success: true,
+        categories
+    })
+}
+
+exports.getSingleCategory = async (req, res, next) => {
+    const categories = await category.findById(req.params.id);
+    if (!categories) {
+        return res.status(404).json({
+            success: false,
+            message: 'Categories not found'
+        })
+    }
     res.status(200).json({
         success: true,
         categories
@@ -88,61 +102,72 @@ exports.GetCategory = async (req,res,next) => {
 }
 
 exports.deleteCategory = async (req, res, next) => {
-	const Category = await category.findByIdAndDelete(req.params.id);
-	if (!Category) {
-		return res.status(404).json({
-			success: false,
-			message: 'Category not found'
-		})
-	}
+    const Category = await category.findByIdAndDelete(req.params.id);
+    if (!Category) {
+        return res.status(404).json({
+            success: false,
+            message: 'Category not found'
+        })
+    }
 
-	res.status(200).json({
-		success: true,
-		message: 'Category deleted'
-	})
+    res.status(200).json({
+        success: true,
+        message: 'Category deleted'
+    })
 }
 exports.updateCategory = async (req, res, next) => {
-	let Category = await category.findById(req.params.id);
-	// console.log(req.body)
-	if (!category) {
-		return res.status(404).json({
-			success: false,
-			message: 'Category not found'
-		})
-	}
-	let images = []
 
-    if (typeof req.body.images === 'string') {
-        images.push(req.body.images)
-    } else {
-        images = req.body.images
+    let categories = await category.findById(req.params.id);
+
+    if (!categories) {
+        return res.status(404).json({
+            success: false,
+            message: 'Category not found'
+        })
     }
-	if (images !== undefined) {
-        // Deleting images associated with the product
-        for (let i = 0; i < category.images.length; i++) {
-            const result = await cloudinary.v2.uploader.destroy(category.images[i].public_id)
-        }
-	}
-	let imagesLinks = [];
-	for (let i = 0; i < images.length; i++) {
-		const result = await cloudinary.v2.uploader.upload(images[i], {
-			folder: 'category'
-		});
-		imagesLinks.push({
-			public_id: result.public_id,
-			url: result.secure_url
-		})
 
-	}
-	req.body.images = imagesLinks
-	category = await Category.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true,
-		useFindandModify: false
-	})
-	// console.log(product)
-	return res.status(200).json({
-		success: true,
-		category
-	})
+    if (req.body.images) {
+
+        let images = [];
+
+        if (typeof req.body.images === 'string') {
+            images.push(req.body.images)
+        } else {
+            images = req.body.images
+        }
+    
+        if (images !== undefined) {
+            for (let i = 0; i < categories.images.length; i++) {
+                const result = await cloudinary.v2.uploader.destroy(categories.images[i].public_id)
+            }
+        }
+
+        let imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++) {
+            console.log(images[i])
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+                folder: 'baghub/category'
+            });
+
+            imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            })
+
+        }
+        req.body.images = imagesLinks
+    }
+
+    categories = await category.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindandModify: false
+    })
+
+    return res.status(200).json({
+        success: true,
+        categories
+    })
+
 }

@@ -262,3 +262,4 @@ exports.updateUser = async (req, res, next) => {
         success: true
     })
 }
+

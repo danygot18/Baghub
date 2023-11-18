@@ -95,7 +95,7 @@ const CategoryList = () => {
         allCategory.forEach(category => {
             data.rows.push({
                 id: category._id,
-                name: category.name,
+                name: category.name,    
                 actions: <Fragment>
                     <Link to={`/admin/category/${category._id}`} className="btn btn-primary py-1 px-2 mr-5">
                         <EditNoteTwoToneIcon />
