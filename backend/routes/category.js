@@ -11,9 +11,9 @@ const {
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 
-router.post('/category/new', isAuthenticatedUser, upload.array('images'), NewCategory);
-router.get('/category', GetCategory);
-router.put('/category/update/:id',upload.array('images', 10), updateCategory);
-router.delete('/category/:id', deleteCategory);
+router.post('/admin/category/new', isAuthenticatedUser, upload.array('images'), NewCategory);
+router.get('/admin/categories', GetCategory);
+router.put('/admin/category/update/:id',upload.array('images', 10), updateCategory);
+router.delete('/admin/category/:id', deleteCategory);
 
 module.exports = router;

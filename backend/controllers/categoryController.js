@@ -80,22 +80,11 @@ exports.NewCategory = async (req, res, next) => {
 
 exports.GetCategory = async (req,res,next) => {
 	
-	const resPerPage = 4;
-	const CategoryCount = await category.countDocuments();
-	const apiFeatures = new APIFeatures(category.find(),req.query).search().filter(); 
-
-	// const products = await Product.find();
-	apiFeatures.pagination(resPerPage); 
-	const Categories = await apiFeatures.query;
-	let filteredCategoryCount = Categories.length;
-	res.status(200).json({
-		success: true,  
-        filteredCategoryCount,
-		CategoryCount,
-        Categories,
-        category,
-		resPerPage,
-	})
+	const categories = await category.find();
+    res.status(200).json({
+        success: true,
+        categories
+    })
 }
 
 exports.deleteCategory = async (req, res, next) => {
@@ -118,7 +107,7 @@ exports.updateCategory = async (req, res, next) => {
 	if (!category) {
 		return res.status(404).json({
 			success: false,
-			message: 'Product not found'
+			message: 'Category not found'
 		})
 	}
 	let images = []
@@ -130,8 +119,8 @@ exports.updateCategory = async (req, res, next) => {
     }
 	if (images !== undefined) {
         // Deleting images associated with the product
-        for (let i = 0; i < product.images.length; i++) {
-            const result = await cloudinary.v2.uploader.destroy(product.images[i].public_id)
+        for (let i = 0; i < category.images.length; i++) {
+            const result = await cloudinary.v2.uploader.destroy(category.images[i].public_id)
         }
 	}
 	let imagesLinks = [];
@@ -146,7 +135,7 @@ exports.updateCategory = async (req, res, next) => {
 
 	}
 	req.body.images = imagesLinks
-	product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+	category = await Category.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true,
 		useFindandModify: false
@@ -154,6 +143,6 @@ exports.updateCategory = async (req, res, next) => {
 	// console.log(product)
 	return res.status(200).json({
 		success: true,
-		product
+		category
 	})
 }

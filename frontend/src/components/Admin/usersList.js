@@ -6,7 +6,7 @@ import { Table } from '@mui/material';
 import { MDBDataTable } from 'mdbreact'
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
