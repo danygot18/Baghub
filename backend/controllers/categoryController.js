@@ -15,8 +15,6 @@ const APIFeatures = require('../utils/apiFeatures');
 
 exports.NewCategory = async (req, res, next) => {
 
-
-
     let images = []
 
     if (req.files) {
@@ -45,7 +43,7 @@ exports.NewCategory = async (req, res, next) => {
         // console.log(imageDataUri)
         try {
             const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
-                folder: 'category',
+                folder: 'baghub/category',
                 width: 150,
                 crop: "scale",
             });

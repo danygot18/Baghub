@@ -12,19 +12,12 @@ const Sidebar = () => {
                         <Link to="/dashboard"><i className="fa fa-tachometer"></i> Dashboard</Link>
                     </li>
 
-                    <li>
-                        <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
-                            <i className="fa fa-product-hunt"></i> Products</a>
-                        <ul className="collapse list-unstyled" id="productSubmenu">
-                            <li>
-                                <Link to="/admin/products"><i className="fa fa-clipboard"></i> All</Link>
-                            </li>
+                    <NavDropdown title={"Product"} className="btn dropdown-toggle text-blue mr-4" style={{ height: "55px" }} type="button" id="dropDownMenuButton">
 
-                            <li>
-                                <Link to="/admin/product"><i className="fa fa-plus"></i> Create</Link>
-                            </li>
-                        </ul>
-                    </li>
+                        <Link to="/admin/product/new" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
+                        <Link to="#" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
+
+                    </NavDropdown>
 
 
 

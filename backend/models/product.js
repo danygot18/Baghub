@@ -35,15 +35,7 @@ const productSchema = new mongoose.Schema({
     ],
     category: {
         type: String,
-        required: [true, 'Please select category for this product'],
-        enum: {
-            values: [
-                'Gucci',
-                'Dior',
-                'Luis Vuitton'
-            ],
-            message: 'Please select correct category for product'
-        }
+        required: [true, 'Please select category for this product']     
     },
     seller: {
         type: String,
@@ -59,32 +51,32 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    // reviews: [
-    //     {
-    //         user: {
-    //             type: mongoose.Schema.ObjectId,
-    //             ref: 'User',
-    //             required: true
-    //         },
-    //         name: {
-    //             type: String,
-    //             required: true
-    //         },
-    //         rating: {
-    //             type: Number,
-    //             required: true
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: true
-    //         }
-    //     }
-    // ],
-    // user: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // },
+    reviews: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            name: {
+                type: String,
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true
+            },
+            comment: {
+                type: String,
+                required: true
+            }
+        }
+    ],
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
