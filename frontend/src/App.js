@@ -22,6 +22,7 @@ import UpdateCategory from './components/Admin/updateCategory';
 
 import NewProduct from './components/Admin/newProduct';
 import ProductList from './components/Admin/productList';
+import UpdateProduct from './components/Admin/updateProduct';
 
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -56,6 +57,7 @@ function App() {
 
           <Route path="/admin/product/new" element={<NewProduct />} />
           <Route path="/admin/product" element={<ProductList />} />
+          <Route path="/admin/product/:id" element={<UpdateProduct />} />
 
           <Route path="/" element={<>
             <MyCarousel />

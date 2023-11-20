@@ -106,6 +106,11 @@ const ProductsList = () => {
                     sort: 'asc'
                 },
                 {
+                    label: 'Category',
+                    field: 'category',
+                    sort: 'asc'
+                },
+                {
                     label: 'Stock',
                     field: 'stock',
                     sort: 'asc'
@@ -121,8 +126,9 @@ const ProductsList = () => {
         products.forEach(product => {
             data.rows.push({
                 id: product._id,
-                name: product.name,
+                name: product.name,              
                 price: `$${product.price}`,
+                category: product.category.name,
                 stock: product.stock,
                 actions: <Fragment>
                     <Link to={`/admin/product/${product._id}`} className="btn btn-primary py-1 px-2">

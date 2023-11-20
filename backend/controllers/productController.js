@@ -1,6 +1,7 @@
 const product = require('../models/product');
 const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require('cloudinary')
+const category = require('../models/category')
 
 // exports.NewProduct = async (req, res, next) => {
 	
@@ -50,7 +51,7 @@ exports.NewProduct = async (req, res, next) => {
         // console.log(imageDataUri)
         try {
             const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
-                folder: 'baghub/category',
+                folder: 'baghub/product',
                 width: 150,
                 crop: "scale",
             });
@@ -85,7 +86,11 @@ exports.NewProduct = async (req, res, next) => {
 
 exports.getAdminProducts = async (req, res, next) => {
 
-	const products = await product.find();
+	const products = await product.find().populate({
+        path:"category", 
+        model: category
+
+    });
 
 	res.status(200).json({
 		success: true,
@@ -108,6 +113,98 @@ exports.deleteProduct = async (req, res, next) => {
         message: 'Product deleted'
     })
 }
+exports.updateProduct = async (req, res, next) => {
+
+    console.log(req.body)
+    let products = await product.findById(req.params.id);
+
+    if (!products) {
+        return res.status(404).json({
+            success: false,
+            message: 'Product not found'
+        })
+    }
+
+    if (req.body.images) {
+
+        let images = [];
+
+        if (typeof req.body.images === 'string') {
+            images.push(req.body.images)
+        } else {
+            images = req.body.images
+        }
+    
+        if (images !== undefined) {
+            for (let i = 0; i < products.images.length; i++) {
+                const result = await cloudinary.v2.uploader.destroy(products.images[i].public_id)
+            }
+        }
+
+        let imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++) {
+            console.log(images[i])
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+                folder: 'baghub/product'
+            });
+
+            imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            })
+
+        }
+        req.body.images = imagesLinks
+    }
+
+    products = await product.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindandModify: false
+    })
+
+    return res.status(200).json({
+        success: true,
+        products
+    })
+
+}
+exports.getSingleProduct = async (req, res, next) => {
+	const products = await product.findById(req.params.id);
+	if (!products) {
+		return res.status(404).json({
+			success: false,
+			message: 'Product not found'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		products
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // exports.GetProducts = async (req,res,next) => {
