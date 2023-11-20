@@ -1,5 +1,6 @@
 const product = require('../models/product');
 const APIFeatures = require('../utils/apiFeatures');
+const cloudinary = require('cloudinary')
 
 // exports.NewProduct = async (req, res, next) => {
 	
@@ -49,7 +50,7 @@ exports.NewProduct = async (req, res, next) => {
         // console.log(imageDataUri)
         try {
             const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
-                folder: 'baghub/product',
+                folder: 'baghub/category',
                 width: 150,
                 crop: "scale",
             });
@@ -66,7 +67,7 @@ exports.NewProduct = async (req, res, next) => {
     }
 
     req.body.images = imagesLinks
-    req.body.user = req.user.id;
+    req.body.user = req.body.id;
 
     const productResult = await product.create(req.body);
     if (!productResult)
@@ -81,6 +82,33 @@ exports.NewProduct = async (req, res, next) => {
         productResult
     })
 }
+
+exports.getAdminProducts = async (req, res, next) => {
+
+	const products = await product.find();
+
+	res.status(200).json({
+		success: true,
+		products
+	})
+
+}
+
+exports.deleteProduct = async (req, res, next) => {
+    const Products = await product.findByIdAndDelete(req.params.id);
+    if (!Products) {
+        return res.status(404).json({
+            success: false,
+            message: 'Product not found'
+        })
+    }
+
+    res.status(200).json({
+        success: true,
+        message: 'Product deleted'
+    })
+}
+
 
 // exports.GetProducts = async (req,res,next) => {
 	

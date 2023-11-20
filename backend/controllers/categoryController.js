@@ -43,7 +43,7 @@ exports.NewCategory = async (req, res, next) => {
         // console.log(imageDataUri)
         try {
             const result = await cloudinary.v2.uploader.upload(`${imageDataUri}`, {
-                folder: 'baghub/category',
+                folder: 'baghub/product',
                 width: 150,
                 crop: "scale",
             });

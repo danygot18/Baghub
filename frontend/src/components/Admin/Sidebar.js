@@ -15,7 +15,7 @@ const Sidebar = () => {
                     <NavDropdown title={"Product"} className="btn dropdown-toggle text-blue mr-4" style={{ height: "55px" }} type="button" id="dropDownMenuButton">
 
                         <Link to="/admin/product/new" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
-                        <Link to="#" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
+                        <Link to="/admin/product" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Product</Link>
 
                     </NavDropdown>
 

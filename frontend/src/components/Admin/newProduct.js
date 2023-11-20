@@ -2,78 +2,58 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const NewProduct = () => {
   const navigate = useNavigate();
-
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
-  const [seller, setSeller] = useState('');
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [success, setSuccess] = useState('')
-  const [product, setProduct] = useState({})
-
+  const [product, setProduct] = useState({
+    name: '',
+    description: '',
+    price: 0,
+    cupSize: '',
+    stock: 0,
+    category: '',
+    images: null,
+  });
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value, type } = e.target;
 
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('price', price);
-    formData.set('description', description);
-    formData.set('category', categories);
-    formData.set('stock', stock);
-    formData.set('seller', seller);
+    if (type === 'file') {
+      const files = Array.from(e.target.files);
+      const imagePreviews = [];
+      const selectedImages = [];
 
-    images.forEach(image => {
-      formData.append('images', image)
-    })
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            imagePreviews.push(reader.result);
+            selectedImages.push(file);
+          }
+        };
 
-    newProduct(formData)
-  }
-  const onChange = e => {
-    const files = Array.from(e.target.files)
-    setImagesPreview([]);
-    setImages([])
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview(oldArray => [...oldArray, reader.result])
-          setImages(oldArray => [...oldArray, reader.result])
-        }
-      }
+        reader.readAsDataURL(file);
+      });
 
-      reader.readAsDataURL(file)
-      // console.log(reader)
-    })
-
-  }
-  const newProduct = async (formData) => {
-
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      }
-
-      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/admin/product/new`, formData, config)
-      setLoading(false)
-      setSuccess(data.success)
-      setProduct(data.product)
-    } catch (error) {
-      setError(error.response.data.message)
-
+      setImagesPreview(imagePreviews);
+      setImages(selectedImages);
+    } else if (name === 'price') {
+      setProduct({
+        ...product,
+        [name]: parseFloat(value), 
+      });
+    } else {
+      setProduct({
+        ...product,
+        [name]: value,
+      });
     }
-  }
+  };
+
   useEffect(() => {
     console.log('Fetching categories...');
     axios
@@ -85,22 +65,53 @@ const NewProduct = () => {
       .catch((error) => {
         console.error('Failed to fetch categories:', error);
       });
-    if (error) {
-      toast.error(error, {
-        position: toast.POSITION.BOTTOM_RIGHT
+  }, []);
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price);
+    formData.append('seller', product.seller);
+    formData.append('stock', product.stock);
+    formData.append('category', product.category);
+
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+    // console.log(e.target.images.value);
+    console.log(images);
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+
+      await axios.post(`${process.env.REACT_APP_API}/api/v1/admin/product/new`, formData, config);
+
+      toast.success('Product Created successfully', {
+        position: toast.POSITION.TOP_RIGHT_RIGHT
+    })
+      setProduct({
+        name: '',
+        description: '',
+        price: 0,
+        stock: 0,
+        category: '',
+        images: null,
       });
-    }
-
-    if (success) {
-      navigate('/admin/products');
-      toast.success('Product created successfully', {
+      setImages([]);
+      setImagesPreview([]);
+      navigate('/admin/product');
+    } catch (error) {
+      toast.success('ERROR: PRODUCT NOT CREATED', {
         position: toast.POSITION.BOTTOM_RIGHT
-      })
-
+    })
+      console.error(error);
     }
-
-  }, [[error, success,]]);
-
+  };
 
   return (
     <div className="container mt-5">
@@ -137,7 +148,7 @@ const NewProduct = () => {
                 onChange={handleChange}
               ></textarea>
             </div>
-
+            
             <div className="mb-3">
               <label htmlFor="price" className="form-label">
                 Price
@@ -154,20 +165,18 @@ const NewProduct = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="cupSize" className="form-label">
-                Cup Size
+              <label htmlFor="seller" className="form-label">
+                Seller
               </label>
-              <select
-                className="form-select"
-                id="cupSize"
-                name="cupSize"
-                value={product.cupSize}
+              <input
+                type="text"
+                className="form-control"
+                id="seller"
+                name="seller"
+                required
+                value={product.seller}
                 onChange={handleChange}
-              >
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-              </select>
+              />
             </div>
 
 
@@ -217,7 +226,7 @@ const NewProduct = () => {
                 accept="image/*"
                 name="images"
                 required
-                onChange={onChange}
+                onChange={handleChange}
                 multiple
               />
               {imagesPreview.map((img) => (
