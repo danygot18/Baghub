@@ -85,6 +85,15 @@ exports.GetCategory = async (req, res, next) => {
     })
 }
 
+exports.GetAdminCategory = async (req, res, next) => {
+
+    const categories = await category.find();
+    res.status(200).json({
+        success: true,
+        categories
+    })
+}
+
 exports.getSingleCategory = async (req, res, next) => {
     const categories = await category.findById(req.params.id);
     if (!categories) {

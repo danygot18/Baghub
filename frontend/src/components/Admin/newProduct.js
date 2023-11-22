@@ -44,7 +44,7 @@ const NewProduct = () => {
     } else if (name === 'price') {
       setProduct({
         ...product,
-        [name]: parseFloat(value), 
+        [name]: parseFloat(value),
       });
     } else {
       setProduct({
@@ -93,7 +93,7 @@ const NewProduct = () => {
 
       toast.success('Product Created successfully', {
         position: toast.POSITION.TOP_RIGHT_RIGHT
-    })
+      })
       setProduct({
         name: '',
         description: '',
@@ -108,7 +108,7 @@ const NewProduct = () => {
     } catch (error) {
       toast.success('ERROR: PRODUCT NOT CREATED', {
         position: toast.POSITION.BOTTOM_RIGHT
-    })
+      })
       console.error(error);
     }
   };
@@ -141,6 +141,7 @@ const NewProduct = () => {
                 Description
               </label>
               <textarea
+                type="text"
                 className="form-control"
                 id="description"
                 name="description"
@@ -148,7 +149,7 @@ const NewProduct = () => {
                 onChange={handleChange}
               ></textarea>
             </div>
-            
+
             <div className="mb-3">
               <label htmlFor="price" className="form-label">
                 Price
