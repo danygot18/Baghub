@@ -20,7 +20,7 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [resPerPage, setResPerPage] = useState(0)
     const [filteredProductsCount, setFilteredProductsCount] = useState(0)
-    const [price, setPrice] = useState([1, 1000]);
+    const [price, setPrice] = useState([1, 50000]);
     const [category, setCategory] = useState('');
     const [categories, setCategories] = useState([]);
     let { keyword } = useParams();

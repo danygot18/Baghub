@@ -13,11 +13,19 @@ const category = require('../models/category')
 // 	})
 // }
 exports.GetProducts = async (req, res, next) => {
-	const products = await product.find({});
+	const resPerPage = 4;
+	const productsCount = await product.countDocuments();
+	const apiFeatures = new APIFeatures(product.find(),req.query).search().filter(); 
+
+    apiFeatures.pagination(resPerPage);
+	const products = await apiFeatures.query;
+	let filteredProductsCount = products.length;
 	res.status(200).json({
 		success: true,
-		count: products.length,
-		products
+		filteredProductsCount,
+		productsCount,
+		products,
+		resPerPage,
 	})
 }
 

@@ -96,6 +96,7 @@ const UpdateProduct = () => {
             setName(product.name);
             setPrice(product.price);
             setDescription(product.description);
+            setCategories(product.categories);
             setCategory(product.category);
             setSeller(product.seller);
             setStock(product.stock);
@@ -169,8 +170,8 @@ const UpdateProduct = () => {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="category_field">Category</label>
-                                    <select className="form-control" id="category_field" onChange={(e) => setCategory(e.target.value)}>
-                                        {categories && categories.map(category => (
+                                    <select className="form-control" id="category_field" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                        { categories && categories.map(category => (
                                             <option key={category.name} value={category._id} selected = {category.name === category} >{category.name}</option>
                                         ))}
                                     </select>
