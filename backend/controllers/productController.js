@@ -84,6 +84,14 @@ exports.NewProduct = async (req, res, next) => {
     })
 }
 
+exports.getAdminProductsShow = async (req, res, next) =>{
+    const products = await product.find()
+    res.status(201).json({
+        success: true,
+        products
+    })
+}
+
 exports.getAdminProducts = async (req, res, next) => {
 
 	const products = await product.find().populate({
