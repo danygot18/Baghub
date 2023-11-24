@@ -64,7 +64,9 @@ const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
   return (
     <Navbar expand="lg" bg="light" variant="light">
       <Container>
-        <Navbar.Brand href="/" className="custom-font"><strong>BagHub</strong></Navbar.Brand>
+        <Navbar.Brand href="/" className="custom-font">
+          <img src='/Baghublogo.png'alt=''width='100px'/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
