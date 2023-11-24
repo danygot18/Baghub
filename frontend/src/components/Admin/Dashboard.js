@@ -80,6 +80,22 @@ const Dashboard = () => {
     }
 
   }
+  const getAdminOrders = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${getToken()}`
+        }
+      }
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/orders`, config)
+      console.log(data)
+      setOrders(data.orders)
+      setLoading(false)
+    }catch (error) {
+      setError(error.response.data.message)
+    }
+  }
 
 
   useEffect(() => {
@@ -88,6 +104,7 @@ const Dashboard = () => {
     // allUsers()
     getAdminUsers()
     getAdminCategory()
+    getAdminOrders()
   }, [])
 
   return (
@@ -176,7 +193,17 @@ const Dashboard = () => {
                 {/* Out of Stock Card */}
                 <Col xl={3} sm={6} mb={3}>
                   <Card className="bg-warning text-white o-hidden h-100">
-                    {/* ... (existing code) */}
+                  <Card.Body>
+                      <div className="text-center card-font-size">
+                        Orders<br /> <b>{orders && orders.length}</b>
+                      </div>
+                    </Card.Body>
+                    <Link className="card-footer text-white clearfix small z-1" to="/admin/orders">
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
                   </Card>
                 </Col>
               </Row>
