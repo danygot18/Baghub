@@ -113,6 +113,7 @@ const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
                 {/* <NavDropdown.Item className="dropdown-item"> */}
                 <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
                 <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
+                <Link to="/orders" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>orders</Link>
                 {/* </NavDropdown.Item> */}
                 {/* </LinkContainer> */}
                 <NavDropdown.Item className="dropdown-item text-danger" to="/" onClick={logoutHandler}>

@@ -31,6 +31,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 
+import OrdersList from './components/Admin/orderList';
+import ProcessOrder from './components/Admin/updateOrder';
+
 //Orders
 import Cart from './components/cart/cart';
 import Shipping from './components/cart/shipping';
@@ -39,6 +42,10 @@ import ConfirmOrder from './components/cart/confirmOrder';
 import LoginModal from './components/user/login';
 import SignUpModal from './components/user/signup';
 import Payment from './components/cart/payment';
+import OrderSuccess from './components/cart/orderSuccess';
+
+import ListOrders from './components/order/listOrder';
+import OrderDetails from './components/order/orderDetails';
 
 function App() {
   const [state, setState] = useState({
@@ -48,7 +55,9 @@ function App() {
     shippingInfo: localStorage.getItem('shippingInfo')
       ? JSON.parse(localStorage.getItem('shippingInfo'))
       : {},
+      
   })
+  console.log(localStorage.getItem('cartItems'));
   const addItemToCart = async (id, quantity) => {
     console.log(id, quantity)
     try {
@@ -139,6 +148,8 @@ function App() {
           <Route path="/admin/product/new" element={<NewProduct />} />
           <Route path="/admin/product" element={<ProductList />} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
+          <Route path="/admin/orders" element={<OrdersList />} />
+          <Route path="/admin/order/:id" element={<ProcessOrder />} />
 
           <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} />
           
@@ -157,6 +168,10 @@ function App() {
           />
           <Route path="/confirm" element={<ConfirmOrder cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
           <Route path="/payment" element={<Payment cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
+          <Route path="/success" element={<OrderSuccess />} />
+          
+          <Route path="/orders" element={<ListOrders />} />
+          <Route path="/order/:id" element={<OrderDetails />} />
 
           <Route path="/Home" element={<Home />} />
           <Route path="/" element={<>
