@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import MetaData from '../layout/MetaData';
 
 const NewProduct = () => {
   const navigate = useNavigate();
@@ -114,7 +115,9 @@ const NewProduct = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <Fragment>
+      <MetaData title={'Create Category'} />
+    
       <div className="row">
         <div className="col-md-3">
           <Sidebar />
@@ -240,8 +243,10 @@ const NewProduct = () => {
           </form>
         </div>
       </div>
-    </div>
+    
+    </Fragment>
   );
+ 
 };
 
 export default NewProduct;

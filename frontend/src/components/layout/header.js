@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-function MyNavbar() {
+const MyNavbar = ( { cartItems }) => {
   const [user, setUser] = useState('')
   const navigate = useNavigate()
   const logoutUser = async () => {
@@ -84,10 +84,16 @@ function MyNavbar() {
             <Button className="custom-font" variant="outline-dark">Search</Button>
           </Form>
           <Nav>
-            <Nav.Link href="#cart" aria-label="Shopping Cart" className="custom-font">
-              <i className="bi bi-cart"></i> Cart{' '}
-              <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
+            <Nav.Link href="/cart" aria-label="Shopping Cart" className="custom-font">
+              <i className="bi bi-cart"></i> Cart
+              <span className="badge bg-dark text-white ms-1 rounded-pill">{cartItems && cartItems.length}</span>
             </Nav.Link>
+            {/* <Link to="/cart" style={{ textDecoration: 'none' }} >
+                        <span id="cart" className="ml-3">Cart</span>
+                        <i className="bi bi-cart"></i> Cart{' '}
+                        <b>{cartItems && cartItems.length}</b>
+                        <span className="ml-1" id="cart_count">2</span>
+                    </Link> */}
           </Nav>
 
 
@@ -107,8 +113,8 @@ function MyNavbar() {
                 {/* <span>{user && user.name}</span> */}
                 {/* <LinkContainer to="/profile" className='bg-white'> */}
                 {/* <NavDropdown.Item className="dropdown-item"> */}
-                  <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
-                  <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
+                <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
+                <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
                 {/* </NavDropdown.Item> */}
                 {/* </LinkContainer> */}
                 <NavDropdown.Item className="dropdown-item text-danger" to="/" onClick={logoutHandler}>

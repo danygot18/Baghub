@@ -57,7 +57,7 @@ const UpdateProduct = () => {
             setName(data.products.name)
             setPrice(data.products.price)
             setDescription(data.products.description)
-            setCategory(data.products.categories)
+            setCategory(data.products.category)
             setStock(data.products.stock)
             setSeller(data.products.seller)
             setOldImages(data.products.images);

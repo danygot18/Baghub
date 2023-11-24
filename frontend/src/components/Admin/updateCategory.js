@@ -107,7 +107,7 @@ const updateCategory = () => {
                 </div>
                 <div className="col-12 col-md-10">
                     <div className="row wrapper">
-                        <div className="col-10 col-lg-5">
+                        <div className="col-10 col-lg-5 mx-auto">
                             <form className="shadow-lg" onSubmit={submitHandler}>
                                 <h1 className="mt-2 mb-5">Update Category</h1>
                                 <div className="form-group">
