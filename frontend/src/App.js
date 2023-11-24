@@ -33,8 +33,12 @@ import axios from 'axios';
 
 //Orders
 import Cart from './components/cart/cart';
+import Shipping from './components/cart/shipping';
+import ConfirmOrder from './components/cart/confirmOrder';
 
-
+import LoginModal from './components/user/login';
+import SignUpModal from './components/user/signup';
+import Payment from './components/cart/payment';
 
 function App() {
   const [state, setState] = useState({
@@ -107,10 +111,12 @@ function App() {
     localStorage.setItem('shippingInfo', JSON.stringify(data))
   }
 
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
+
   return (
     <div className="App">
       <Router>
-        <MyNavbar cartItems={state.cartItems} />
+        <MyNavbar cartItems={state.cartItems} setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen} />
 
         <Routes>
           <Route path="/login" element={<Login />} exact="true" />
@@ -120,7 +126,7 @@ function App() {
           <Route path="/profile/update" element={<UpdateProfile />} exact="true" />
           <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
           <Route path="/password/update" element={<UpdatePassword />} exact="true" />
-        
+
 
           {/* Admin */}
           <Route path="/admin/users" element={<UsersList />} />
@@ -134,15 +140,32 @@ function App() {
           <Route path="/admin/product" element={<ProductList />} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
 
-          <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />}/>
-        
+          <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} />
+          
 
-          <Route path="/cart" element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} exact="true" />
+          <Route path="/cart" element={
+            <Cart cartItems={state.cartItems}
+              addItemToCart={addItemToCart}
+              removeItemFromCart={removeItemFromCart}
+              setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen}
+            />
+          } exact="true" />
+          <Route path="/shipping" element={<Shipping
+            shipping={state.shippingInfo}
+            saveShippingInfo={saveShippingInfo}
+          />}
+          />
+          <Route path="/confirm" element={<ConfirmOrder cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
+          <Route path="/payment" element={<Payment cartItems={state.cartItems} shippingInfo={state.shippingInfo} />} />
+
           <Route path="/Home" element={<Home />} />
           <Route path="/" element={<>
             <MyCarousel />
-            <Home  /></>} exact="true" />
+            <Home /></>} exact="true" />
         </Routes>
+        <LoginModal show={isLoginOpen} handleClose={() => {
+          setIsLoginOpen(false)
+        }} />
       </Router>
     </div>
 

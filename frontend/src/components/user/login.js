@@ -47,6 +47,11 @@ function LoginModal({ show, handleClose }) {
     login(email, password)
   }
 
+  // useEffect(() => {
+  //   if (getUser() && redirect === 'shipping') {
+  //     navigate(`/${redirect}`)
+  //   }
+  // }, [])
 
   // console.log('Logging in with email:', email, 'and password:', password);
   // handleClose(); // Close the modal after login
@@ -85,9 +90,9 @@ function LoginModal({ show, handleClose }) {
             <Form.Check type="checkbox" label="Remember Me" />
           </Form.Group>
           <Form.Group>
-          <Link to="/password/forgot" className="float-right mb-4" onClick={handleClose}>Forgot Password?</Link>
+            <Link to="/password/forgot" className="float-right mb-4" onClick={handleClose}>Forgot Password?</Link>
           </Form.Group>
-          
+
           <Button variant="dark" className="mt-2 btn-outline-white" onClick={submitHandler}>
             Login
           </Button>

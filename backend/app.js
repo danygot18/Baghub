@@ -5,6 +5,7 @@ const cors = require('cors')
 const product = require('./routes/product');
 const user = require('./routes/user')
 const category = require('./routes/category')
+const order = require('./routes/order')
 
 
 
@@ -19,6 +20,7 @@ app.get('/order',(req, res) => {
 app.use('/api/v1', user);
 app.use('/api/v1', product);
 app.use('/api/v1', category)
+app.use('/api/v1', order)
 
 
 module.exports = app

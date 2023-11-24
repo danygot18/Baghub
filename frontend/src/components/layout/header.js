@@ -15,9 +15,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
-const MyNavbar = ( { cartItems }) => {
+const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
   const [user, setUser] = useState('')
   const navigate = useNavigate()
   const logoutUser = async () => {
@@ -138,16 +136,13 @@ const MyNavbar = ( { cartItems }) => {
 
 
             </Nav>) : <div>
-            <Button variant="outline-white" onClick={handleLoginModalOpen} className="custom-font">
+            <Button variant="outline-white" onClick={() => setIsLoginOpen(true)} className="custom-font">
               Login
             </Button>
             <Button variant="outline-white" onClick={handleSignUpModalOpen} className="custom-font">
               Sign Up
             </Button></div>}
-          <LoginModal show={showLoginModal} handleClose={handleLoginModalClose} />
           <SignUpModal show={showSignUpModal} handleClose={handleSignUpModalClose} />
-
-
         </Navbar.Collapse>
       </Container>
 

@@ -1,10 +1,13 @@
-import React, { Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData'
 import { useParams, useNavigate } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete';
+import LoginModal from '../user/login';
+import { getUser } from '../../utils/helpers';
 
-const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
+
+const Cart = ({ addItemToCart, cartItems, removeItemFromCart, setIsLoginOpen, isLoginOpen }) => {
     const navigate = useNavigate()
 
     const increaseQty = (id, quantity, stock) => {
@@ -22,9 +25,18 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
     const removeCartItemHandler = (id) => {
         removeItemFromCart(id)
     }
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
     const checkoutHandler = () => {
-        navigate('/login?redirect=shipping')
+        if (getUser()) {
+            navigate('/shipping')
+        } else {
+            setIsLoginOpen(true)
+            
+            // alert('wala')
+        }
     }
+
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
 
     return (
@@ -92,6 +104,7 @@ const Cart = ({ addItemToCart, cartItems, removeItemFromCart }) => {
 
                                 <hr />
                                 <button id="checkout_btn" className="btn btn-primary btn-block" onClick={checkoutHandler}>Check out</button>
+
                                 {/*<button id="checkout_btn" className="btn btn-primary btn-block" >Check out</button>*/}
                             </div>
                         </div>
