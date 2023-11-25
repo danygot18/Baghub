@@ -13,11 +13,13 @@ const {
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 
-router.post('/admin/category/new', isAuthenticatedUser, upload.array('images'), NewCategory);
-router.get('/admin/category/:id', getSingleCategory);
-router.get('/categories', GetCategory);
-router.get('/admin/categories', GetAdminCategory);
-router.put('/admin/category/update/:id', upload.array('images'), updateCategory);
-router.delete('/admin/category/:id', deleteCategory);
+router.post('/admin/category/new', isAuthenticatedUser,authorizeRoles("admin"), upload.array('images'), NewCategory);
+router.get('/admin/category/:id',isAuthenticatedUser,authorizeRoles("admin"), getSingleCategory);
+router.get('/admin/categories' ,isAuthenticatedUser, authorizeRoles("admin"), GetAdminCategory);
+router.put('/admin/category/update/:id', upload.array('images'),isAuthenticatedUser, authorizeRoles("admin"), updateCategory);
+router.delete('/admin/category/:id',isAuthenticatedUser, authorizeRoles("admin"), deleteCategory );
+
+router.get('/categories', GetCategory );
+
 
 module.exports = router;

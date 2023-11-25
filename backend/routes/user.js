@@ -16,8 +16,8 @@ router.put('/password/reset/:token', ResetPassword);
 router.put('/password/update', isAuthenticatedUser, updatePassword);
 router.put('/profile/update', upload.single("avatar"), isAuthenticatedUser, UpdateProfile)
 
-router.get('/admin/users', AllUsers)
-router.route('/admin/user/:id').get(isAuthenticatedUser, getUserDetails).delete(isAuthenticatedUser, deleteUser).put(isAuthenticatedUser, updateUser)
+router.get('/admin/users', isAuthenticatedUser, authorizeRoles("admin"), AllUsers)
+router.route('/admin/user/:id').get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetails).delete(isAuthenticatedUser,authorizeRoles("admin"), deleteUser).put(isAuthenticatedUser,authorizeRoles("admin"), updateUser)
 
 // router.put('/profile/update', UpdateProfile);
 

@@ -70,14 +70,16 @@ const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#dashboard" className="custom-font">Dashboard</Nav.Link>
+          {user && user.role === 'admin' && (
+            <Nav.Link href="/dashboard" className="custom-font">Dashboard</Nav.Link>
+          )}
             <Nav.Link href="#about" className="custom-font">About</Nav.Link>
-            <NavDropdown className="custom-font" title="Shop" id="basic-nav-dropdown">
+            {/* <NavDropdown className="custom-font" title="Shop" id="basic-nav-dropdown">
               <NavDropdown.Item href="#products" className="custom-font">All Products</NavDropdown.Item>
               <NavDropdown.Item href="#brands" className="custom-font">All Brands</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#separated-link" className="custom-font">Separated link</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
           <Form className="d-flex me-3">
             <FormControl type="text" placeholder="Search" className="mr-2 custom-font" />
@@ -114,10 +116,13 @@ const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
                 {/* <LinkContainer to="/profile" className='bg-white'> */}
                 {/* <NavDropdown.Item className="dropdown-item"> */}
                 <Link to="/profile" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Profile</Link>
+                {user && user.role === 'admin' && (
                 <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
+                )}
                 <Link to="/orders" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>orders</Link>
                 {/* </NavDropdown.Item> */}
                 {/* </LinkContainer> */}
+                
                 <NavDropdown.Item className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>

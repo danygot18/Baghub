@@ -47,6 +47,9 @@ import OrderSuccess from './components/cart/orderSuccess';
 import ListOrders from './components/order/listOrder';
 import OrderDetails from './components/order/orderDetails';
 
+import ProtectedRoute from './components/route/protectedRoute';
+
+
 function App() {
   const [state, setState] = useState({
     cartItems: localStorage.getItem('cartItems')
@@ -139,7 +142,7 @@ function App() {
 
           {/* Admin */}
           <Route path="/admin/users" element={<UsersList />} />
-          <Route path="/dashboard" element={<Dashboard />} exact="true" />
+          <Route path="/dashboard" element={<ProtectedRoute isAdmin={true}> <Dashboard /></ProtectedRoute>}/>
           <Route path="/admin/user/:id" element={<UpdateUser />} />
           <Route path="/admin/category/new" element={<NewCategory />} />
           <Route path="/admin/category" element={<CategoryList />} />
