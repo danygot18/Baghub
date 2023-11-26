@@ -15,6 +15,12 @@ router.delete('/admin/order/:id',isAuthenticatedUser,authorizeRoles("admin"), de
 router.put('/admin/order/:id',isAuthenticatedUser,authorizeRoles("admin"), updateOrder)
 router.get('/confirm', confirm)
 
+router.get('/admin/total-orders', totalOrders);
+router.get('/admin/total-sales', totalSales);
+router.get('/admin/customer-sales', customerSales);
+router.get('/admin/sales-per-month', salesPerMonth);
+
+
 
 
 module.exports = router;
