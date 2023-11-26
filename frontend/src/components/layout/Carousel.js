@@ -20,7 +20,7 @@ function SimpleSlider() {
             <img src="images/Dior.png" alt="Slide 1" className="carousel-image" />
           </div>
           <div>
-            <img src="images/Chanel2.png" alt="Slide 2" className="carousel-image" />
+            <img src="images/Chanel.png" alt="Slide 2" className="carousel-image" />
           </div>
           <div>
             <img src="images/Yves Saint Laurent.png" alt="Slide 3" className="carousel-image" />
