@@ -17,13 +17,16 @@ function SimpleSlider() {
       <div>
         <Slider {...settings}>
           <div>
-            <img src="images/image1.png" alt="Slide 1" className="carousel-image" />
+            <img src="images/Dior.png" alt="Slide 1" className="carousel-image" />
           </div>
           <div>
-            <img src="images/bags.png" alt="Slide 2" className="carousel-image" />
+            <img src="images/Chanel.png" alt="Slide 2" className="carousel-image" />
           </div>
           <div>
-            <img src="images/gucci.png" alt="Slide 3" className="carousel-image" />
+            <img src="images/Yves Saint Laurent.png" alt="Slide 3" className="carousel-image" />
+          </div>
+          <div>
+            <img src="images/Celine.png" alt="Slide 4" className="carousel-image" />
           </div>
         </Slider>
         <div className="divider"></div> {/* Add this divider */}
