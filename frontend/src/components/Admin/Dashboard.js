@@ -1,28 +1,30 @@
 // Import necessary modules and components
-import React, { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardBody, Col, Row } from 'react-bootstrap';
+import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Card, CardBody, Col, Row } from "react-bootstrap";
 
-import MetaData from '../layout/MetaData'
-import Loader from '../layout/Loader'
-import Sidebar from './Sidebar';
-import { getToken } from '../../utils/helpers';
-import axios from 'axios'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import MetaData from "../layout/MetaData";
+import Loader from "../layout/Loader";
+import Sidebar from "./Sidebar";
+import { getToken } from "../../utils/helpers";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import UserSalesChart from "./userSalesChart";
+import MonthlySalesChart from "./monthlyChart";
+import ProductSalesChart from "./productSalesChart";
 // ... (other imports)
-
-
 
 const Dashboard = () => {
   // ... (existing code)
-  const [products, setProducts] = useState([])
-  const [error, setError] = useState('')
-  const [users, setUsers] = useState([])
-  const [categories, setCategories] = useState([])
-  const [orders, setOrders] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [totalAmount, setTotalAmount] = useState([])
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
+  const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalAmount, setTotalAmount] = useState([]);
   let outOfStock = 0;
   // products.forEach(product => {
   //   if (product.stock === 0) {
@@ -34,80 +36,87 @@ const Dashboard = () => {
       const config = {
         headers: {
           // 'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      }
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/products/show`, config)
-      console.log(data.products)
-      setProducts(data.products)
-      setLoading(false)
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/admin/products/show`,
+        config
+      );
+      console.log(data.products);
+      setProducts(data.products);
+      setLoading(false);
     } catch (error) {
-      setError(error.response.data.message)
-
+      setError(error.response.data.message);
     }
-  }
+  };
   const getAdminUsers = async () => {
     try {
-
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      }
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/users`, config)
-      console.log(data)
-      setUsers(data.users)
-      setLoading(false)
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/admin/users`,
+        config
+      );
+      console.log(data);
+      setUsers(data.users);
+      setLoading(false);
     } catch (error) {
-      setError(error.response.data.message)
+      setError(error.response.data.message);
     }
-  }
+  };
 
   const getAdminCategory = async () => {
     try {
-
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      }
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/categories`, config)
-      console.log(data)
-      setCategories(data.categories)
-      setLoading(false)
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/admin/categories`,
+        config
+      );
+      console.log(data);
+      setCategories(data.categories);
+      setLoading(false);
     } catch (error) {
-      setError(error.response.data.message)
+      setError(error.response.data.message);
     }
-
-  }
+  };
   const getAdminOrders = async () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      }
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/orders`, config)
-      console.log(data)
-      setOrders(data.orders)
-      setLoading(false)
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/admin/orders`,
+        config
+      );
+      console.log(data);
+      setOrders(data.orders);
+      setLoading(false);
     } catch (error) {
-      setError(error.response.data.message)
+      setError(error.response.data.message);
     }
-  }
-
+  };
 
   useEffect(() => {
-    getAdminProducts()
+    getAdminProducts();
     // allOrders()
     // allUsers()
-    getAdminUsers()
-    getAdminCategory()
-    getAdminOrders()
-  }, [])
+    getAdminUsers();
+    getAdminCategory();
+    getAdminOrders();
+  }, []);
 
   return (
     <Fragment>
@@ -123,7 +132,7 @@ const Dashboard = () => {
             <Loader />
           ) : (
             <Fragment>
-              <MetaData title={'Admin Dashboard'} />
+              <MetaData title={"Admin Dashboard"} />
 
               <Row className="pr-4">
                 {/* Total Amount Card */}
@@ -142,11 +151,15 @@ const Dashboard = () => {
                   <Card className="bg-success text-white o-hidden h-100">
                     <Card.Body>
                       <div className="text-center card-font-size">
-                        Products<br /> <b>{products && products.length}</b>
+                        Products
+                        <br /> <b>{products && products.length}</b>
                       </div>
                     </Card.Body>
 
-                    <Link className="card-footer text-white clearfix small z-1" to="/admin/product">
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/product"
+                    >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
                         <i className="fa fa-angle-right"></i>
@@ -161,11 +174,15 @@ const Dashboard = () => {
                     {/* ... (existing code) */}
                     <CardBody>
                       <div className="text-center card-font-size">
-                        Users<br /> <b>{users && users.length}</b>
+                        Users
+                        <br /> <b>{users && users.length}</b>
                       </div>
                     </CardBody>
 
-                    <Link className="card-footer text-white clearfix small z-1" to="/admin/users">
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/users"
+                    >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
                         <i className="fa fa-angle-right"></i>
@@ -179,11 +196,15 @@ const Dashboard = () => {
                   <Card className="bg-info text-white o-hidden h-100">
                     <Card.Body>
                       <div className="text-center card-font-size">
-                        Category<br /> <b>{categories && categories.length}</b>
+                        Category
+                        <br /> <b>{categories && categories.length}</b>
                       </div>
                     </Card.Body>
 
-                    <Link className="card-footer text-white clearfix small z-1" to="/admin/category">
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/category"
+                    >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
                         <i className="fa fa-angle-right"></i>
@@ -197,25 +218,38 @@ const Dashboard = () => {
                   <Card className="bg-warning text-white o-hidden h-100">
                     <Card.Body>
                       <div className="text-center card-font-size">
-                        Orders<br /> <b>{orders && orders.length}</b>
+                        Orders
+                        <br /> <b>{orders && orders.length}</b>
                       </div>
                     </Card.Body>
-                    <Link className="card-footer text-white clearfix small z-1" to="/admin/orders">
+                    <Link
+                      className="card-footer text-white clearfix small z-1"
+                      to="/admin/orders"
+                    >
                       <span className="float-left">View Details</span>
                       <span className="float-right">
                         <i className="fa fa-angle-right"></i>
                       </span>
+                      <div>
+                        <Fragment>
+                          <UserSalesChart />
+                        </Fragment>
+                        <Fragment>
+                          <MonthlySalesChart />
+                        </Fragment>
+                        <Fragment>
+                          <ProductSalesChart />
+                        </Fragment>
+                      </div>
                     </Link>
                   </Card>
                 </Col>
               </Row>
-              
             </Fragment>
           )}
         </Col>
       </Row>
     </Fragment>
-
   );
 };
 
