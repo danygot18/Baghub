@@ -82,7 +82,7 @@ const UpdateProduct = () => {
     useEffect(() => {
         // console.log(user && user._id !== userId);
         axios
-            .get(`${process.env.REACT_APP_API}/api/v1/admin/categories`)
+            .get(`${process.env.REACT_APP_API}/api/v1/admin/categories`, config)
             .then((response) => {
                 console.log('Categories data:', response.data);
                 setCategories(response.data.categories);

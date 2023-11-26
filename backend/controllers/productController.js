@@ -2,6 +2,7 @@ const product = require('../models/product');
 const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require('cloudinary')
 const category = require('../models/category')
+const Order = require('../models/order')
 
 // exports.NewProduct = async (req, res, next) => {
 	
@@ -199,6 +200,7 @@ exports.getSingleProduct = async (req, res, next) => {
 		products
 	})
 }
+
 
 
 

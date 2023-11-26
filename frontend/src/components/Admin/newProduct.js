@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MetaData from '../layout/MetaData';
+import { getToken } from '../../utils/helpers';
 
 const NewProduct = () => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ const NewProduct = () => {
     name: '',
     description: '',
     price: 0,
-    cupSize: '',
     stock: 0,
     category: '',
     images: null,
@@ -54,19 +54,13 @@ const NewProduct = () => {
       });
     }
   };
-
-  useEffect(() => {
-    console.log('Fetching categories...');
-    axios
-      .get(`${process.env.REACT_APP_API}/api/v1/admin/categories`)
-      .then((response) => {
-        console.log('Categories data:', response.data);
-        setCategories(response.data.categories);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch categories:', error);
-      });
-  }, []);
+  const configs = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      'Authorization': `Bearer ${getToken()}`
+    }
+  }
+  
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -86,7 +80,8 @@ const NewProduct = () => {
     try {
       const config = {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${getToken()}`
         }
       };
 
@@ -113,6 +108,18 @@ const NewProduct = () => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    console.log('Fetching categories...');
+    axios
+      .get(`${process.env.REACT_APP_API}/api/v1/admin/categories`, configs)
+      .then((response) => {
+        console.log('Categories data:', response.data);
+        setCategories(response.data.categories);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch categories:', error);
+      });
+  }, []);
 
   return (
     <Fragment>

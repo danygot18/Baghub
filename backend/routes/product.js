@@ -9,20 +9,21 @@ const {
     deleteProduct,
     updateProduct,
     getSingleProduct,
-    getAdminProductsShow
+    getAdminProductsShow,
+    productSales
 } = require('../controllers/productController');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 router.get('/products', GetProducts);
-router.get('/admin/products', isAuthenticatedUser,authorizeRoles("admin"), getAdminProducts);
-router.get('/admin/products/show', isAuthenticatedUser,authorizeRoles("admin"), getAdminProductsShow);
+router.get('/admin/products',isAuthenticatedUser, authorizeRoles("admin"), getAdminProducts);
+router.get('/admin/products/show',isAuthenticatedUser, authorizeRoles("admin"), getAdminProductsShow);
 router.get('/products/:id', getSingleProduct);
 
 
 // router.post('/admin/product/new', isAuthenticatedUser, authorizeRoles('admin',), upload.array('images', 10), newProduct);
-router.post('/admin/product/new',upload.array('images'),authorizeRoles("admin"), NewProduct);
-router.delete('/admin/product/:id',authorizeRoles("admin"), deleteProduct);
-router.put('/admin/product/update/:id', upload.array('images'),authorizeRoles("admin"), updateProduct);
+router.post('/admin/product/new',isAuthenticatedUser, authorizeRoles("admin"),upload.array('images'), NewProduct);
+router.delete('/admin/product/:id',isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
+router.put('/admin/product/update/:id', isAuthenticatedUser, authorizeRoles("admin"), upload.array('images'), updateProduct);
 
 
 module.exports = router;

@@ -12,6 +12,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // ... (other imports)
 
+
+
 const Dashboard = () => {
   // ... (existing code)
   const [products, setProducts] = useState([])
@@ -92,7 +94,7 @@ const Dashboard = () => {
       console.log(data)
       setOrders(data.orders)
       setLoading(false)
-    }catch (error) {
+    } catch (error) {
       setError(error.response.data.message)
     }
   }
@@ -193,7 +195,7 @@ const Dashboard = () => {
                 {/* Out of Stock Card */}
                 <Col xl={3} sm={6} mb={3}>
                   <Card className="bg-warning text-white o-hidden h-100">
-                  <Card.Body>
+                    <Card.Body>
                       <div className="text-center card-font-size">
                         Orders<br /> <b>{orders && orders.length}</b>
                       </div>
@@ -207,11 +209,13 @@ const Dashboard = () => {
                   </Card>
                 </Col>
               </Row>
+              
             </Fragment>
           )}
         </Col>
       </Row>
     </Fragment>
+
   );
 };
 

@@ -28,7 +28,7 @@ exports.newOrder = async (req, res, next) => {
         paidAt: Date.now(),
         user: req.user._id
     })
-    const listItems = orderItems.map( bags => `
+    const listItems = orderItems.map(bags => `
     
     <p>${bags.name}</p>
     <p>${bags.quantity}</p>
@@ -50,12 +50,12 @@ exports.newOrder = async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        order, 
+        order,
         message: `Email sent to: Baghub@email.com`
     })
 }
 exports.confirm = async (req, res, next) => {
-    const{orderId, userEmail} = req.query
+    const { orderId, userEmail } = req.query
     try {
         const order = await Order.findById(orderId);
         if (!order) {
@@ -68,14 +68,14 @@ exports.confirm = async (req, res, next) => {
         const pdfDoc = new PDFDocument();
         const pdfFilePath = `./order${orderId}.pdf`;
         const pdfStream = fs.createWriteStream(pdfFilePath);
-        const listItems = order.orderItems.map( bags => `   
+        const listItems = order.orderItems.map(bags => `   
         ${bags.name}
         ${bags.quantity}
         ${bags.price}
         ${bags.quantity * bags.price}
         `
 
-        ).join(''); 
+        ).join('');
         pdfDoc.pipe(pdfStream);
         pdfDoc.text(`${listItems}`)
         pdfDoc.end();
@@ -92,9 +92,9 @@ exports.confirm = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            message: Order `Email sent to: ${userEmail}`
+            message: Order`Email sent to: ${userEmail}`
         });
-    }catch(error){
+    } catch (error) {
         console.error(error);
         res.status(500).json({
             success: false,
@@ -180,3 +180,4 @@ async function updateStock(id, quantity) {
     product.stock = product.stock - quantity;
     await product.save({ validateBeforeSave: false })
 }
+

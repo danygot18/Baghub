@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router();
 
-const { newOrder, myOrders, getSingleOrder, adminOrders, deleteOrder, updateOrder, confirm
+const { newOrder, myOrders, getSingleOrder, adminOrders, deleteOrder, updateOrder, confirm,
+	totalOrders, totalSales, customerSales,salesPerMonth
 		
 	} = require('../controllers/orderController')
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth')
