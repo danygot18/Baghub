@@ -119,7 +119,7 @@ const MyNavbar = ({ cartItems, setIsLoginOpen, isLoginOpen }) => {
                 {user && user.role === 'admin' && (
                 <Link to="/dashboard" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Dashboard</Link>
                 )}
-                <Link to="/orders" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>orders</Link>
+                <Link to="/orders" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Orders</Link>
                 {/* </NavDropdown.Item> */}
                 {/* </LinkContainer> */}
                 
