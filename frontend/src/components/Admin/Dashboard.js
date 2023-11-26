@@ -10,7 +10,6 @@ import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import UserSalesChart from "./userSalesChart";
 import MonthlySalesChart from "./monthlyChart";
 import ProductSalesChart from "./productSalesChart";
@@ -212,7 +211,6 @@ const Dashboard = () => {
                     </Link>
                   </Card>
                 </Col>
-
                 {/* Out of Stock Card */}
                 <Col xl={3} sm={6} mb={3}>
                   <Card className="bg-warning text-white o-hidden h-100">
@@ -230,23 +228,23 @@ const Dashboard = () => {
                       <span className="float-right">
                         <i className="fa fa-angle-right"></i>
                       </span>
-                      <div>
-                        <Fragment>
-                          <UserSalesChart />
-                        </Fragment>
-                        <Fragment>
-                          <MonthlySalesChart />
-                        </Fragment>
-                        <Fragment>
-                          <ProductSalesChart />
-                        </Fragment>
-                      </div>
                     </Link>
                   </Card>
                 </Col>
               </Row>
             </Fragment>
           )}
+          <div>
+            <Fragment>
+              <UserSalesChart />
+            </Fragment>
+            <Fragment>
+              <MonthlySalesChart />
+            </Fragment>
+            <Fragment>
+              <ProductSalesChart />
+            </Fragment>
+          </div>
         </Col>
       </Row>
     </Fragment>
