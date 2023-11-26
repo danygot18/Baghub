@@ -29,9 +29,9 @@ const updateCategory = () => {
     }
     const onChange = e => {
         const files = Array.from(e.target.files)
-        // setImagesPreview([]);
-        // setImages([])
-        // setOldImages([])
+        setImagesPreview([]);
+        setImages([])
+        setOldImages([])
         files.forEach(file => {
             const reader = new FileReader();
             reader.onload = () => {
