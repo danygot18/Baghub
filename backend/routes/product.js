@@ -25,5 +25,9 @@ router.post('/admin/product/new',isAuthenticatedUser, authorizeRoles("admin"),up
 router.delete('/admin/product/:id',isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 router.put('/admin/product/update/:id', isAuthenticatedUser, authorizeRoles("admin"), upload.array('images'), updateProduct);
 
+router.get('/admin/product-sales', productSales);
+
+
+
 
 module.exports = router;
