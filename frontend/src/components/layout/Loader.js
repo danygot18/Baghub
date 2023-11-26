@@ -1,20 +1,16 @@
-import React from 'react'
-import { FidgetSpinner } from 'react-loader-spinner'
+import React from "react";
+import { RotatingLines } from "react-loader-spinner";
 
 const Loader = () => {
-    return (
-        <FidgetSpinner
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="dna-loading"
-            wrapperStyle={{}}
-            wrapperClass="dna-wrapper"
-            ballColors={['#ff0000', '#00ff00', '#0000ff']}
-            backgroundColor="#F4442E"
-            
-        />
-    )
-}
+  return (
+    <RotatingLines
+      strokeColor="grey"
+      strokeWidth="5"
+      animationDuration="0.75"
+      width="96"
+      visible={true}
+    />
+  );
+};
 
-export default Loader
+export default Loader;
