@@ -36,7 +36,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchData("products/show", setProducts);
+    fetchData("products", setProducts);
     fetchData("users", setUsers);
     fetchData("categories", setCategories);
     fetchData("orders", setOrders);
@@ -65,7 +65,7 @@ const Dashboard = () => {
 
                     {/* Products, Orders, Users, Categories Cards */}
                     {[
-                      { label: "Products", data: products, link: "/admin/products" },
+                      { label: "Products", data: products, link: "/admin/product" },
                       { label: "Users", data: users, link: "/admin/users" },
                       { label: "Categories", data: categories, link: "/admin/category" },
                       { label: "Orders", data: orders, link: "/admin/orders" },

@@ -53,7 +53,7 @@ const UserSalesChart = () => {
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart data={sales}>
                             <CartesianGrid strokeDasharray="2 2" />
-                            <XAxis dataKey="userDetails.name" />
+                            <XAxis dataKey="_id" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
