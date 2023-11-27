@@ -29,7 +29,7 @@ const Product = ({ product }) => {
             </span>
           </div>
           <p className="card-text" style={{ color: "#333" }}>
-            ${product.price}
+            ₱{product.price}
           </p>
           <Link
             to={`/product/${product._id}`}
