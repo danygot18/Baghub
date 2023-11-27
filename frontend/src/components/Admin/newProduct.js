@@ -123,137 +123,141 @@ const NewProduct = () => {
 
   return (
     <Fragment>
-      <MetaData title={'Create Category'} />
-    
-      <div className="row">
-        <div className="col-md-3">
-          <Sidebar />
-        </div>
-        <div className="col-md-9">
-          <h2>Create Product</h2>
-          <form onSubmit={submitForm}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                required
-                value={product.name}
-                onChange={handleChange}
-              />
+      <MetaData title={'Create Product'} />
+  
+      <div className="custom-container mt-5" style={{ maxWidth: '1000px', margin: '800px auto 0' }}>
+    <div className="row">
+      <div className="col-md-3">
+        <Sidebar />
+      </div>
+      <div className="col-md-9">
+        <div className="card">
+          <div className="card-header bg-primary text-white text-center">
+            <h2>Create Product</h2>
+          </div>
+          <div className="card-body">
+            <form onSubmit={submitForm} className="row g-3">
+                <div className="col-md-6">
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    required
+                    value={product.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="price" className="form-label">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="price"
+                    name="price"
+                    required
+                    value={product.price}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-12">
+                  <label htmlFor="description" className="form-label">
+                    Description
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    id="description"
+                    name="description"
+                    value={product.description}
+                    onChange={handleChange}
+                  ></textarea>
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="seller" className="form-label">
+                    Seller
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="seller"
+                    name="seller"
+                    required
+                    value={product.seller}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="stock" className="form-label">
+                    Stock
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="stock"
+                    name="stock"
+                    required
+                    value={product.stock}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="category" className="form-label">
+                    Category
+                  </label>
+                  <select
+                    className="form-control"
+                    id="category"
+                    name="category"
+                    required
+                    value={product.category}
+                    onChange={handleChange}
+                  >
+                    {categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="image" className="form-label">
+                    Image
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="image"
+                    accept="image/*"
+                    name="images"
+                    required
+                    onChange={handleChange}
+                    multiple
+                  />
+                  {imagesPreview.map((img) => (
+                    <img src={img} key={img} alt="Images Preview" className="mt-3" width="55" height="52" />
+                  ))}
+                </div>
+                <div className="col-md-12 text-center">
+                  <button type="submit" className="btn btn-primary">
+                    Create Product
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className="mb-3">
-              <label htmlFor="description" className="form-label">
-                Description
-              </label>
-              <textarea
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={product.description}
-                onChange={handleChange}
-              ></textarea>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="price" className="form-label">
-                Price
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="price"
-                name="price"
-                required
-                value={product.price}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="seller" className="form-label">
-                Seller
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="seller"
-                name="seller"
-                required
-                value={product.seller}
-                onChange={handleChange}
-              />
-            </div>
-
-
-            <div className="mb-3">
-              <label htmlFor="stock" className="form-label">
-                Stock
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="stock"
-                name="stock"
-                required
-                value={product.stock}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="category" className="form-label">
-                Category
-              </label>
-              <select
-                className="form-control"
-                id="category"
-                name="category"
-                required
-                value={product.category}
-                onChange={handleChange}
-              >
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="image" className="form-label">
-                Image
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                id="image"
-                accept="image/*"
-                name="images"
-                required
-                onChange={handleChange}
-                multiple
-              />
-              {imagesPreview.map((img) => (
-                <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
-              ))}
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Create Product
-            </button>
-          </form>
+          </div>
         </div>
       </div>
-    
+      </div>
     </Fragment>
   );
- 
+  
+
 };
 
 export default NewProduct;

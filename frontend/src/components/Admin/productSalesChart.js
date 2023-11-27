@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { getToken } from "../../utils/helpers";
 import axios from "axios";
 import Loader from '../layout/Loader';
-
+import { Card, CardBody } from 'react-bootstrap';
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-export default function ProductSalesChart({ data }) {
-    const [sales, setSales] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
+const ProductSalesChart = ({ data }) => {
+    const [sales, setSales] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const pieColors = [
         "#FF6633",
         "#FFB399",
@@ -29,8 +29,7 @@ export default function ProductSalesChart({ data }) {
         "#FF4D4D",
         "#99E6E6",
         "#6666FF"
-    ]
-    // console.log(data)
+    ];
 
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -44,6 +43,7 @@ export default function ProductSalesChart({ data }) {
             </text>
         );
     };
+
     const productSales = async () => {
         try {
             const config = {
@@ -51,46 +51,53 @@ export default function ProductSalesChart({ data }) {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${getToken()}`
                 }
-            }
+            };
 
-            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/product-sales`, config)
-            setSales(data.totalPercentage)
-
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/product-sales`, config);
+            setSales(data.totalPercentage);
+            setLoading(false);
         } catch (error) {
-            setError(error.response.data.message)
-
+            setError(error.response.data.message);
+            setLoading(false);
         }
-    }
-    useEffect(() => {
-        productSales()
-    }, [])
+    };
 
+    useEffect(() => {
+        productSales();
+    }, []);
 
     return (
-        <ResponsiveContainer width="90%" height={1000}>
-            <PieChart width={1000} height={1000}>
-                {/* <Pie data={data} dataKey="percent" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" /> */}
-                <Pie
-                    dataKey="percent"
-                    nameKey="name"
-                    isAnimationActive={true}
-                    data={sales}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={300}
-                    fill="#8884d8"
-                    label={renderCustomizedLabel}
-                    labelLine={false}
-                // label
-                >  {
-                        sales.map((entry, index) => <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />)
-                    }
-                </Pie>
-                <Tooltip />
-                <Legend layout="vertical" verticalAlign="top" align="right" />
-            </PieChart>
-        </ResponsiveContainer>
-
-
+        <Card>
+            <Card.Body className="card-body-container">
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <ResponsiveContainer width="100%" height={400}>
+                        <PieChart width={300} height={400}>
+                            <Pie
+                                dataKey="percent"
+                                nameKey="name"
+                                isAnimationActive={true}
+                                data={sales}
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={150}
+                                fill="#8884d8"
+                                label={renderCustomizedLabel}
+                                labelLine={false}
+                            >
+                                {
+                                    sales.map((entry, index) => <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />)
+                                }
+                            </Pie>
+                            <Tooltip />
+                            <Legend layout="vertical" verticalAlign="top" align="right" />
+                        </PieChart>
+                    </ResponsiveContainer>
+                )}
+            </Card.Body>
+        </Card>
     );
-}
+};
+
+export default ProductSalesChart;

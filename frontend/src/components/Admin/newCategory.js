@@ -91,70 +91,70 @@ const NewCategory = () => {
 
     return (
         <Fragment>
-            <MetaData title={'Create Category'} />
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-
-                <div className="col-12 col-md-10">
-                    <Fragment>
-                        <div className="wrapper my-5">
-                            <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data'>
-                                <h1 className="mb-4">New Category</h1>
-
-                                <div className="form-group">
-                                    <label htmlFor="name_field">Name</label>
-                                    <input
-                                        type="text"
-                                        id="name_field"
-                                        className="form-control"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </div>
-
-                        
-                                <div className='form-group'>
-                                    <label>Images</label>
-
-                                    <div className='custom-file'>
-                                        <input
-                                            type='file'
-                                            name='images'
-                                            className='custom-file-input'
-                                            id='customFile'
-                                            onChange={onChange}
-                                            multiple
-                                        />
-                                        <label className='custom-file-label' htmlFor='customFile'>
-                                            Choose Images
-                                        </label>
-                                    </div>
-
-                                    {imagesPreview.map(img => (
-                                        <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
-                                    ))}
-
-                                </div>
-
-
-                                <button
-                                    id="Create_button"
-                                    type="submit"
-                                    className="btn btn-block py-3"
-                                // disabled={loading ? true : false}
-                                >
-                                    CREATE
-                                </button>
-
-                            </form>
-                        </div>
-                    </Fragment>
-                </div>
+        <MetaData title={'Create Category'} />
+        <div className="custom-container mt-5" style={{ maxWidth: '1000px', margin: '100px auto 0' }}>
+          <div className="row">
+            <div className="col-md-3">
+              <Sidebar />
             </div>
-
-        </Fragment>
-    )
+            <div className="col-md-9">
+              <div className="card">
+                <div className="card-header bg-primary text-white text-center">
+                  <h2>Create Category</h2>
+                </div>
+                <div className="card-body">
+                  <form onSubmit={submitHandler} className="row g-3">
+                    <div className="col-md-6">
+                      <label htmlFor="name_field" className="form-label">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name_field"
+                        className="form-control"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+  
+                    <div className='col-md-6'>
+                      <label htmlFor="customFile" className='form-label'>Images</label>
+  
+                      <div className='custom-file'>
+                        <input
+                          type='file'
+                          name='images'
+                          className='custom-file-input'
+                          id='customFile'
+                          onChange={onChange}
+                          multiple
+                        />
+                        <label className='custom-file-label' htmlFor='customFile'>
+                          Choose Images
+                        </label>
+                      </div>
+  
+                      {imagesPreview.map(img => (
+                        <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                      ))}
+                    </div>
+  
+                    <div className="col-md-12 text-center">
+                      <button
+                        id="Create_button"
+                        type="submit"
+                        className="btn btn-primary"
+                      >
+                        CREATE
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Fragment>
+    );
 }
 export default NewCategory

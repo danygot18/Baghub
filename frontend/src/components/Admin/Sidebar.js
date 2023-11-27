@@ -1,53 +1,62 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+
+import React from 'react';
+import { Link } from 'react-router-dom';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Card from 'react-bootstrap/Card';
+import { Dropdown } from 'react-bootstrap';
 
 
 const Sidebar = () => {
     return (
-        <div className="sidebar-wrapper block">
-            <nav id="sidebar">
-                <ul className="list-unstyled components">
-                    <li>
-                        <Link to="/dashboard"><i className="fa fa-tachometer"></i> Dashboard</Link>
-                    </li>
+        <div className="sidebar" style={{ marginTop: '60px' }}>
+          <nav id="sidebar">
+            <ul className="list-unstyled components">
 
-                    <NavDropdown title={"Product"} className="btn dropdown-toggle text-blue mr-4" style={{ height: "55px" }} type="button" id="dropDownMenuButton">
-
-                        <Link to="/admin/product/new" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
-                        <Link to="/admin/product" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Product</Link>
-
-                    </NavDropdown>
-
-
-
-                    <li>
-                        <Link to="/admin/orders"><i className="fa fa-shopping-basket"></i> Orders</Link>
-                    </li>
-
-                    <li>
-                        <Link to="/admin/users"><i className="fa fa-users"></i> Users</Link>
-                    </li>
-
-
-                
-
-                    <NavDropdown title={"Category"} className="btn dropdown-toggle text-blue mr-4" style={{ height: "55px" }} type="button" id="dropDownMenuButton">
-
-                        <Link to="/admin/category" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Category</Link>
-                        <Link to="/admin/category/new" className='text-dark dropdown-item' style={{ textDecoration: "none" }}>Create</Link>
-
-                    </NavDropdown>
-
-                    {/* <li>
-                        <Link to="/admin/reviews"><i className="fa fa-star"></i> Reviews</Link>
-                    </li> */}
-
-
-                </ul>
-            </nav>
+    
+              <Dropdown as="li">
+                <Dropdown.Toggle as={Link} to="#" className="dropdown-item sidebar-link">
+                  Product
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/admin/product/new" className="sidebar-link">
+                    Create
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/admin/product" className="sidebar-link">
+                    Product
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+    
+              <li>
+                <Link to="/admin/orders" className="sidebar-link">
+                  Orders
+                </Link>
+              </li>
+    
+              <li>
+                <Link to="/admin/users" className="sidebar-link">
+                  Users
+                </Link>
+              </li>
+    
+              <Dropdown as="li">
+                <Dropdown.Toggle as={Link} to="#" className="dropdown-item sidebar-link">
+                  Category
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/admin/category" className="sidebar-link">
+                    Category
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/admin/category/new" className="sidebar-link">
+                    Create
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </ul>
+          </nav>
         </div>
-    )
+      );
+      
 }
 
-export default Sidebar
+export default Sidebar;

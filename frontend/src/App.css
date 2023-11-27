@@ -95,3 +95,77 @@
   color: #fff;
   border: none;
 }
+
+
+
+/* Add this CSS to your stylesheets or use a CSS-in-JS solution */
+
+/* Style for the Card containing the chart */
+.card {
+  border: 1px solid #ddd; /* Add a border for a clean look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+/* Style for the Card Body */
+.card-body {
+  padding: 20px; /* Add some padding for better spacing */
+}
+
+/* Style for the ResponsiveContainer */
+.recharts-wrapper {
+  margin-top: -20px; /* Adjust margin to better align with the card */
+}
+
+
+.fixed-card {
+  width: 400px; /* Set the desired fixed width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-body-container {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.list-unstyled {
+  padding: 15px; /* Padding for the list items */
+}
+
+
+
+.sidebar-link:hover {
+  text-decoration: underline; /* Underline links on hover */
+}
+
+
+.sidebar {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #000; /* Background color: black */
+  padding-top: 20px;
+  font-family: 'Roboto', sans-serif; /* Add your preferred font-family */
+}
+
+.sidebar-link {
+  color: #fff; /* Text color: white */
+  padding: 10px 20px;
+  display: block;
+  text-decoration: none;
+  font-weight: bold; /* Make the text bold */
+}
+
+.sidebar-link:hover {
+  background-color: #000000; /* Darken background on hover */
+}
+
+

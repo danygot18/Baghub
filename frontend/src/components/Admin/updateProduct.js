@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { errMsg, successMsg } from '../../utils/helpers';
 import { getToken } from '../../utils/helpers';
 import axios from 'axios';
+import { Card, Button } from 'react-bootstrap';
 
 const UpdateProduct = () => {
     const [name, setName] = useState('');
@@ -135,103 +136,106 @@ const UpdateProduct = () => {
     console.log(categories)
     return (
         <Fragment>
-            <MetaData title={`Product User`} />
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-12 col-md-10">
-                    <div className="row wrapper">
-                        <div className="col-10 col-lg-5">
-                            <form className="shadow-lg" onSubmit={submitHandler}>
-                                <h1 className="mt-2 mb-5">Update Category</h1>
-                                <div className="form-group">
-                                    <label htmlFor="name_field">Name</label>
-                                    <input
-                                        type="name"
-                                        id="name_field"
-                                        className="form-control"
-                                        name='name'
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="price_field">Price</label>
-                                    <input
-                                        type="text"
-                                        id="price_field"
-                                        className="form-control"
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="description_field">Description</label>
-                                    <textarea className="form-control" id="description_field" rows="8" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="category_field">Category</label>
-                                    <select className="form-control" id="category_field" value={category} onChange={(e) => setCategory(e.target.value)}>
-                                        { categories && categories.map(category => (
-                                            <option key={category.name} value={category._id} selected = {category.name === category} >{category.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="stock_field">Stock</label>
-                                    <input
-                                        type="number"
-                                        id="stock_field"
-                                        className="form-control"
-                                        value={stock}
-                                        onChange={(e) => setStock(e.target.value)}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="seller_field">Seller Name</label>
-                                    <input
-                                        type="text"
-                                        id="seller_field"
-                                        className="form-control"
-                                        value={seller}
-                                        onChange={(e) => setSeller(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="form-group px-4">
-                                    <label htmlFor="avatar_upload" className='w-100' style={{ textAlign: "left" }}>Avatar</label>
-                                    <div className='custom-file'>
-                                        <input
-                                            type='file'
-                                            name='images'
-                                            className='custom-file-input form-control'
-                                            id='customFile'
-                                            accept='image/*'
-                                            onChange={onChange}
-                                            multiple
-                                        />
-
-                                        <label className='custom-file-label' htmlFor='customFile'>
-                                            Choose Images
-                                        </label>
-                                    </div>
-
-                                    {oldImages && oldImages.map(img => (
-                                        <img key={img} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
-                                    ))}
-                                    {imagesPreview.map(img => (
-                                        <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
-                                    ))}
-                                </div>
-                                <button type="submit" className="btn update-btn btn-block mt-4 mb-3" >Update</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+          <MetaData title={`Product User`} />
+          <div className="row">
+            <div className="col-12 col-md-2">
+              <Sidebar />
             </div>
+            <div className="col-12 col-md-10">
+              <div className="row wrapper">
+                <div className="col-12">
+                  <Card className="shadow-lg p-3 bg-white rounded">
+                    <Card.Body>
+                      <h1 className="mt-2 mb-5">Update Category</h1>
+                      <form onSubmit={submitHandler}>
+                        <div className="form-group">
+                          <label htmlFor="name_field">Name</label>
+                          <input
+                            type="name"
+                            id="name_field"
+                            className="form-control"
+                            name='name'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="price_field">Price</label>
+                          <input
+                            type="text"
+                            id="price_field"
+                            className="form-control"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="description_field">Description</label>
+                          <textarea className="form-control" id="description_field" rows="8" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="category_field">Category</label>
+                          <select className="form-control" id="category_field" value={category} onChange={(e) => setCategory(e.target.value)}>
+                            {categories && categories.map(category => (
+                              <option key={category.name} value={category._id} selected={category.name === category}>{category.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="stock_field">Stock</label>
+                          <input
+                            type="number"
+                            id="stock_field"
+                            className="form-control"
+                            value={stock}
+                            onChange={(e) => setStock(e.target.value)}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="seller_field">Seller Name</label>
+                          <input
+                            type="text"
+                            id="seller_field"
+                            className="form-control"
+                            value={seller}
+                            onChange={(e) => setSeller(e.target.value)}
+                          />
+                        </div>
+    
+                        <div className="form-group px-4">
+                          <label htmlFor="avatar_upload" className='w-100' style={{ textAlign: "left" }}>Choose Image</label>
+                          <div className='custom-file'>
+                            <input
+                              type='file'
+                              name='images'
+                              className='custom-file-input form-control'
+                              id='customFile'
+                              accept='image/*'
+                              onChange={onChange}
+                              multiple
+                            />
+                            <label className='custom-file-label' htmlFor='customFile'>
+                              Image Preview
+                            </label>
+                          </div>
+    
+                          {oldImages && oldImages.map(img => (
+                            <img key={img} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
+                          ))}
+                          {imagesPreview.map(img => (
+                            <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                          ))}
+                        </div>
+                        <Button type="submit" className="btn update-btn btn-block mt-4 mb-3" variant="dark">Update</Button>
+                      </form>
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
         </Fragment>
-    )
+      );
 }
 
 export default UpdateProduct
