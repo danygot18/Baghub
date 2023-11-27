@@ -19,7 +19,7 @@ router.get('/admin/categories', isAuthenticatedUser,authorizeRoles("admin"), Get
 router.put('/admin/category/update/:id', isAuthenticatedUser,authorizeRoles("admin"),  upload.array('images'), updateCategory);
 router.delete('/admin/category/:id',isAuthenticatedUser,authorizeRoles("admin"),  deleteCategory );
 
-router.get('/categories', GetCategory );
+router.get('/categories',isAuthenticatedUser, GetCategory );
 
 
 module.exports = router;

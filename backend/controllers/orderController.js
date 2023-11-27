@@ -30,22 +30,104 @@ exports.newOrder = async (req, res, next) => {
     })
     const listItems = orderItems.map(bags => `
     
-    <p>${bags.name}</p>
-    <p>${bags.quantity}</p>
-    <p>${bags.price}</p>
-    <p>${bags.quantity * bags.price}</p>
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        main {
+            background-color: #fff;
+            width: 600px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .confirmation {
+            font-style: italic;
+            margin-top: 20px;
+            color: #888;
+        }
+
+        .thank-you {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h2>Product Details</h2>
+
+        <p>Product name: ${bags.name}</p>
+        <p>Quantity: ${bags.quantity}</p>
+        <p>Price: ${bags.price}</p>
+        <p>Total Amount: ${bags.quantity * bags.price}</p>
+
+        <div class="confirmation">
+            <p>Your order is now confirmed and will be processed promptly.</p>
+            <p>We appreciate your business and look forward to serving you again.</p>
+            <p>If you have any questions or require further assistance, feel free to reach out to our customer support
+                team at 09988.</p>
+        </div>
+        <p> an Order has been made by ${req.user.name}
+        </p>
+        <br>    
+        <div style="display: flex; justify-content: center;">
+
+            <a href="http://localhost:4001/api/v1/confirm?orderId=${order._id}&userEmail=${req.user.email}"
+                style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none;">Confirm
+                Order</a>
+        </div>
+        <br>
+        <div class="thank-you">
+            <p>Thank you for choosing BAGHUB!</p>
+        </div>
+    </main>
+</body>
+
+</html>
     `
 
     )
-    const confirmationLink = `<a href="http://localhost:4001/api/v1/confirm?orderId=${order._id}&userEmail=${req.user.email}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none;">Confirm Order</a>`;
-    const message = `an Order has been made by ${req.user.name} 
-    ${listItems}
-    ${confirmationLink}
-    `
+    // const confirmationLink = `<a href="http://localhost:4001/api/v1/confirm?orderId=${order._id}&userEmail=${req.user.email}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none;">Confirm Order</a>`;
+    const message = `an Order has been made by ${req.user.name} `
+    // ${listItems}
+    // ${confirmationLink}
+   
     await sendEmail({
         email: 'Baghub@email.com',
         subject: 'Order notif',
-        message
+        message:listItems
     })
 
     res.status(200).json({
@@ -68,15 +150,19 @@ exports.confirm = async (req, res, next) => {
         const pdfDoc = new PDFDocument();
         const pdfFilePath = `./order${orderId}.pdf`;
         const pdfStream = fs.createWriteStream(pdfFilePath);
-        const listItems = order.orderItems.map(bags => `   
-        ${bags.name}
-        ${bags.quantity}
-        ${bags.price}
-        ${bags.quantity * bags.price}
-        `
-
-        ).join('');
+        const listItems = order.orderItems.map(bags => `  
+        Product name: ${bags.name}
+        Quantity:     ${bags.quantity}
+        Price:        ${bags.price}
+        Total Amount  ${bags.quantity * bags.price}
+        `).join('');
         pdfDoc.pipe(pdfStream);
+        pdfDoc.font('Helvetica');
+        pdfDoc.text('BAGHUB', { align: 'center' });
+        pdfDoc.moveDown();
+        pdfDoc.text('Your order has been confirmed.');
+        pdfDoc.moveDown();
+        pdfDoc.text('Order Details:', { align: 'center'});
         pdfDoc.text(`${listItems}`)
         pdfDoc.end();
         await sendEmail({
