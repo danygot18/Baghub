@@ -113,13 +113,15 @@ const UpdateProduct = () => {
 
         }
     }, [error, isUpdated, id ])
+    
     const submitHandler = (e) => {
         e.preventDefault();
+        console.log(category)
         const formData = new FormData();
         formData.set('name', name);
         formData.set('price', price);
         formData.set('description', description);
-        formData.set('category', category);
+        formData.set('category', category._id);
         formData.set('stock', stock);
         formData.set('seller', seller);
         if (e.target.images.value) {

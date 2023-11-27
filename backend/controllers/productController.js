@@ -188,7 +188,11 @@ exports.updateProduct = async (req, res, next) => {
 
 }
 exports.getSingleProduct = async (req, res, next) => {
-	const products = await product.findById(req.params.id);
+	const products = await product.findById(req.params.id).populate({
+        path:"category", 
+        model: category
+
+    });;
 	if (!products) {
 		return res.status(404).json({
 			success: false,

@@ -156,6 +156,7 @@ function SignUpModal({ show, handleClose }) {
               id='customFile'
               accept="images/*"
               onChange={onChange}
+              multiple
             />
 
           </Form.Group>

@@ -19,6 +19,8 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
   const [comment, setComment] = useState("");
   const [errorReview, setErrorReview] = useState("");
   const [success, setSuccess] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [name, setName] = useState([]);
 
   let { id } = useParams();
   // const alert = useAlert();
@@ -82,6 +84,25 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
       });
     }
   }
+  const getCategory = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/categories`,
+        config
+      );
+      console.log(data);
+      setCategories(data.categories);
+      setName(data.categories.name)
+      setLoading(false);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
 
   const newReview = async (reviewData) => {
     try {
@@ -112,6 +133,7 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
   };
 
   useEffect(() => {
+    getCategory();
     productDetails(id);
     if (errorReview) {
       errMsg(errorReview);
@@ -121,10 +143,12 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
       successMsg("Reivew posted successfully");
       setSuccess(false);
     }
+    
   }, [id]);
 
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
+  console.log(categories.name)
   return (
     <Fragment>
       {loading ? (
@@ -214,14 +238,14 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
 
               <hr />
 
-              {/* <div style={{ textAlign: "left" }}>
+              <div style={{ textAlign: "left" }}>
                 <div>
                   <h6 style={{ display: "inline" }}>Type of Bag:&nbsp;</h6>
                   <span id="product_category" style={{ display: "inline" }}>
-                    {product.category}
+                      {product.category && product.category.name }
                   </span>
                 </div>
-              </div> */}
+              </div>
 
               <h6 className="mt-2" style={{ textAlign: "left" }}>
                 Product details
