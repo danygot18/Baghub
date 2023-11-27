@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../utils/helpers'
 import axios from 'axios'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 
 const OrdersList = () => {
     let navigate = useNavigate();
@@ -109,11 +111,11 @@ const OrdersList = () => {
                     : <p style={{ color: 'red' }}>{order.orderStatus}</p>,
                 actions: <Fragment>
                     <Link to={`/admin/order/${order._id}`} className="btn btn-primary py-1 px-2">
-                        <i className="fa fa-eye"></i>
+                    <EditNoteTwoToneIcon />
                     </Link>
-                    <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteOrderHandler(order._id)}>
+                    <DeleteIcon fontSize='large' className="btn btn-danger py-1 px-2 ml-2 mr-5" onClick={() => deleteOrderHandler(order._id)}>
                         <i className="fa fa-trash"></i>
-                    </button>
+                    </DeleteIcon>
                 </Fragment>
             })
         })
