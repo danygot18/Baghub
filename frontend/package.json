@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "countries-list": "^3.0.6",
+    "express-validator": "^7.0.1",
     "formik": "^2.4.5",
     "mdbreact": "^5.2.0",
     "mui-datatables": "^4.3.0",
