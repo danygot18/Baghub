@@ -122,7 +122,7 @@ const UpdateProduct = () => {
         formData.set('name', name);
         formData.set('price', price);
         formData.set('description', description);
-        formData.set('category', category._id);
+        formData.set('category', category);
         formData.set('stock', stock);
         formData.set('seller', seller);
         if (e.target.images.value) {

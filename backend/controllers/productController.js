@@ -131,7 +131,7 @@ exports.deleteProduct = async (req, res, next) => {
     })
 }
 exports.updateProduct = async (req, res, next) => {
-
+    
     console.log(req.body)
     let products = await product.findById(req.params.id);
 
@@ -192,7 +192,7 @@ exports.getSingleProduct = async (req, res, next) => {
         path:"category", 
         model: category
 
-    });;
+    });
 	if (!products) {
 		return res.status(404).json({
 			success: false,
