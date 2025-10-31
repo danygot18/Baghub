@@ -156,7 +156,7 @@ const ProductDetails = ({ addItemToCart, cartItems }) => {
       ) : (
         <Fragment>
           <MetaData title={product && product.name} />
-          <div className="row d-flex justify-content-around">
+          <div className="row d-flex justify-content-around ">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
               <br></br>
               <br></br>
